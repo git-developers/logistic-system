@@ -1,0 +1,47 @@
+app_default:
+    resource: "@AppBundle/Resources/config/route/default.yml"
+    prefix: /
+
+app_security:
+    resource: "@AppBundle/Resources/config/route/security.yml"
+    prefix: /security
+
+app_categorytree:
+    resource: "@AppBundle/Resources/config/route/category-tree.yml"
+    prefix: /category-tree
+
+app_product:
+    resource: "@AppBundle/Resources/config/route/product.yml"
+    prefix: /product
+
+app_user:
+    resource: "@AppBundle/Resources/config/route/user.yml"
+    prefix: /user
+
+app_role:
+    resource: "@AppBundle/Resources/config/route/acl-role.yml"
+    prefix: /acl-role
+
+app_profile:
+    resource: "@AppBundle/Resources/config/route/profile.yml"
+    prefix: /profile
+
+app_categorytreetoassign:
+    resource: "@AppBundle/Resources/config/route/category-treetoassign.yml"
+    prefix: /category-tree-to-assign
+
+app_chart:
+    resource: '@AppBundle/Resources/config/route/chart.yml'
+    prefix: /chart
+
+app_generar_requerimiento:
+    resource: '@AppBundle/Resources/config/route/generar-requerimiento.yml'
+    prefix: /generar-requerimiento
+
+app_despacho_almacen:
+    resource: '@AppBundle/Resources/config/route/despacho-almacen.yml'
+    prefix: /despacho-almacen
+
+app_invitar_cotizar_proveedores:
+    resource: '@AppBundle/Resources/config/route/invitar-cotizar-proveedores.yml'
+    prefix: /invitar-cotizar-proveedores

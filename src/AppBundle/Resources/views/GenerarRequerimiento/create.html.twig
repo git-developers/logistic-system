@@ -1,0 +1,224 @@
+{% extends "AppBundle::template.html.twig" %}
+
+{% block bodyclass %}{% spaceless %}
+    {{ crud.body_css }}
+{% endspaceless %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: initial;
+        }
+
+        input[type=checkbox]{
+            height: 20px;
+            width: 20px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $('form[name="{{ crud.form_create_name }}"]').submit(function( event ) {
+                event.preventDefault();
+
+                var fields = $(this).serializeArray();
+
+                $.each( fields, function( key, value ) {
+                    var $div = $('#td-add-product-' + value.value).clone();
+                    $('#products tbody').after($div);
+                });
+
+                $('#modal-add-product').modal('hide');
+
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-fw fa-file-code-o"></i> Generar Requerimiento
+            <small>crear</small>
+        </h1>
+        <ol class="breadcrumb">
+            {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+            {#<li class="active">Dashboard</li>#}
+
+            {#<li>#}
+                {#<a class="btn btn-success btn-xs modal-create"#}
+                        {#alt="Crear item"#}
+                        {#title="Crear item"#}
+                        {#href="{{ path('app_generar_requerimiento_create') }}"#}
+                        {#style="margin-right: 5px; color:white">#}
+                    {#<i class="fa fa-fw fa-plus"></i> crear requerimiento#}
+                {#</a>#}
+            {#</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+
+                    <div class="box-header">
+                        <h3 class="box-title">Datos</h3>
+                    </div>
+
+                    {{ form_start(formEntity)}}
+
+                    {{ form_errors(formEntity) }}
+
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                {% if id is defined %}
+                                    <input type="hidden" value="{{ id }}" name="id">
+                                {% endif %}
+
+                                {{ form_widget(formEntity._token) }}
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.compania) }}
+                                            {{ form_widget(formEntity.compania) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.numero) }}
+                                            {{ form_widget(formEntity.numero) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.prioridad) }}
+                                            {{ form_widget(formEntity.prioridad) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.almacen) }}
+                                            {{ form_widget(formEntity.almacen) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.fechaRequerida) }}
+                                            {{ form_widget(formEntity.fechaRequerida) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pull-right">
+                                    {{ form_widget(formEntity.submit) }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="box box-success box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <i class="fa fa-fw fa-sort-alpha-desc"></i>
+                                            Lista de productos
+                                        </h3>
+
+                                        <div class="box-tools pull-right">
+
+                                            {#data-widget="collapse"#}
+                                            <button type="button"
+                                                    class="btn btn-box-tool"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-add-product"
+                                                    style="background-color: white !important; color: #0b3e6f"
+                                            >
+                                                {#<i class="fa fa-minus"></i>#}
+                                                <i class="fa fa-fw fa-plus-square"></i>
+                                                Agregar productos
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+
+                                        <table id="products"
+                                               class="table table-bordered table-striped dataTable"
+                                               role="grid"
+                                               aria-describedby="example1_info">
+                                            <thead>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>#</th>
+                                                <th>codigo</th>
+                                                <th>nombre</th>
+                                                <th>cantidad</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                            </tbody>
+
+                                            <tfoot>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>#</th>
+                                                <th>codigo</th>
+                                                <th>nombre</th>
+                                                <th>cantidad</th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+
+                    {{ form_end(formEntity)}}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ include('AppBundle:GenerarRequerimiento:Modal/add-product.html.twig') }}
+    {#{{ include('AppBundle:Crud:Modal/edit.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/delete.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/view.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
+
+{% endblock %}

@@ -1,0 +1,253 @@
+{% extends "AppBundle::template.html.twig" %}
+
+{% block bodyclass %}{% spaceless %}
+    {{ crud.body_css }}
+{% endspaceless %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: initial;
+        }
+
+        input[type=checkbox]{
+            height: 20px;
+            width: 20px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("input, select").prop('disabled', true);
+
+        });
+
+        $("#despachar").click(function(){
+            $('#modal-despachar').modal('show');
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-fw fa-cubes"></i>
+            Detalle Requerimiento
+            <span data-toggle="tooltip" title="" class="badge bg-light-blue">
+                {{ entity.numero }}
+            </span>
+            <small>detalle</small>
+        </h1>
+        <ol class="breadcrumb">
+            {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+            {#<li class="active">Dashboard</li>#}
+
+            {#<li>#}
+                {#<a class="btn btn-success btn-xs modal-create"#}
+                        {#alt="Crear item"#}
+                        {#title="Crear item"#}
+                        {#href="{{ path('app_generar_requerimiento_create') }}"#}
+                        {#style="margin-right: 5px; color:white">#}
+                    {#<i class="fa fa-fw fa-plus"></i> crear requerimiento#}
+                {#</a>#}
+            {#</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+
+                    <div class="box-header">
+                        <h3 class="box-title">Datos</h3>
+                    </div>
+
+                    {{ form_start(formEntity)}}
+
+                    {{ form_errors(formEntity) }}
+
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                {% if id is defined %}
+                                    <input type="hidden" value="{{ id }}" name="id">
+                                {% endif %}
+
+                                {{ form_widget(formEntity._token) }}
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.compania) }}
+                                            {{ form_widget(formEntity.compania) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.numero) }}
+                                            {{ form_widget(formEntity.numero) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.prioridad) }}
+                                            {{ form_widget(formEntity.prioridad) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-home"></i>
+                                            {{ form_label(formEntity.almacen) }}
+                                            {{ form_widget(formEntity.almacen) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-calendar"></i>
+                                            {{ form_label(formEntity.fechaRequerida) }}
+                                            {{ form_widget(formEntity.fechaRequerida) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pull-right">
+
+                                    <div style="display: none">
+                                        {{ form_widget(formEntity.submit) }}
+                                    </div>
+
+                                    <button type="button"
+                                            id="despachar"
+                                            class="btn bg-orange btn-flat margin">
+                                        Despachar
+                                    </button>
+                                    <a type="button"
+                                       id="pasar-compras"
+                                       class="btn bg-purple btn-flat margin">
+                                        Pasar a compras
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="box box-warning box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <i class="fa fa-fw fa-sort-alpha-desc"></i>
+                                            Lista de productos
+                                        </h3>
+
+                                        <div class="box-tools pull-right">
+
+                                            <button type="button"
+                                                    class="btn btn-box-tool"
+                                                    data-widget="collapse"
+                                            >
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+
+
+                                        <table id="add-products"
+                                               class="table table-bordered table-striped dataTable"
+                                               role="grid"
+                                               aria-describedby="example1_info">
+                                            <thead>
+                                            <tr>
+                                                {#<th>&nbsp</th>#}
+                                                <th>#</th>
+                                                <th>codigo</th>
+                                                <th>nombre</th>
+                                                {#<th>cantidad</th>#}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for obj in products %}
+
+                                                {% set obj = obj|first %}
+
+                                                <tr class="tr-table" id="td-add-product-{{ obj.id_increment|e }}">
+                                                    {#<td>#}
+                                                        {#<input type="checkbox" name="add-product[id][]" value="{{ obj.id_increment|e }}">#}
+                                                    {#</td>#}
+                                                    <td>
+                                                    <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3">
+                                                        {{ obj.id_increment|e }}
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip" title="" class="badge bg-blue" data-original-title="3">
+                                                            {{ obj.code|e }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ obj.name|e }}</td>
+                                                    {#<td>#}
+                                                        {#<input type="number" name="add-product[stock][]" >#}
+                                                    {#</td>#}
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                {#<th>&nbsp</th>#}
+                                                <th>#</th>
+                                                <th>codigo</th>
+                                                <th>nombre</th>
+                                                {#<th>cantidad</th>#}
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+
+                    {{ form_end(formEntity)}}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ include('AppBundle:DespachoAlmacen:Modal/despachar.html.twig') }}
+
+{% endblock %}

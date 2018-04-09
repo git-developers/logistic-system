@@ -1,0 +1,109 @@
+{% spaceless %}
+    <div class="modal modal-success fade in" id="modal-add-product">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fa fa-fw fa-plus"></i> Agregar productos
+                    <i class="fa fa-refresh fa-spin" style="color: white; margin-left: 10px; display:none"></i>
+                </h4>
+            </div>
+
+            <div class="modal-content">
+                <form name="{{ crud.form_create_name }}" method="post" class="">
+                    <div class="modal-body">
+
+                        <div id="message" class="callout callout-danger" style="display: none;">
+                            <p></p>
+                        </div>
+
+                        <div class="modal-form" style="max-height: 400px; overflow: auto">
+
+
+                            <table id="add-products"
+                                   class="table table-bordered table-striped dataTable"
+                                   role="grid"
+                                   aria-describedby="example1_info">
+                                <thead>
+                                <tr>
+                                    <th>&nbsp</th>
+                                    <th>#</th>
+                                    <th>codigo</th>
+                                    <th>nombre</th>
+                                    <th>cantidad</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for obj in product %}
+                                    <tr class="tr-table" id="td-add-product-{{ obj.id_increment|e }}">
+                                        <td>
+                                            <input type="checkbox" name="add-product[id][]" value="{{ obj.id_increment|e }}">
+                                        </td>
+                                        <td>
+                                            <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3">
+                                                {{ obj.id_increment|e }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <small class="label label-primary">
+                                                {{ obj.code|e }}
+                                            </small>
+                                        </td>
+                                        <td>{{ obj.name|e }}</td>
+                                        <td>
+                                            <input type="number" name="add-product[stock][]" >
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>&nbsp</th>
+                                    <th>#</th>
+                                    <th>codigo</th>
+                                    <th>nombre</th>
+                                    <th>cantidad</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-outline">Agregar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endspaceless %}
+
+
+
+
+
+
+
+
+
+
+
+{#
+
+
+
+#}
+
+
+
+

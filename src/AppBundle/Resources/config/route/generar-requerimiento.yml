@@ -1,0 +1,33 @@
+app_generar_requerimiento_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:GenerarRequerimiento:create
+    methods: [GET, POST]
+
+app_generar_requerimiento_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:GenerarRequerimiento:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_generar_requerimiento_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:GenerarRequerimiento:delete
+    requirements:
+    methods: [DELETE]
+
+app_generar_requerimiento_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:GenerarRequerimiento:view
+    requirements:
+    methods: [GET]
+
+app_generar_requerimiento_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:GenerarRequerimiento:info
+    requirements:
+    methods: [POST]

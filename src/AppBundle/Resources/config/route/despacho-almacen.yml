@@ -1,0 +1,39 @@
+app_despacho_almacen_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:index
+    methods: [GET]
+
+app_despacho_almacen_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:create
+    methods: [GET, POST]
+
+app_despacho_almacen_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_despacho_almacen_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:delete
+    requirements:
+    methods: [DELETE]
+
+app_despacho_almacen_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:view
+    requirements:
+    methods: [GET]
+
+app_despacho_almacen_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:info
+    requirements:
+    methods: [POST]

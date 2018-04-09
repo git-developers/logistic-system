@@ -1,0 +1,39 @@
+app_invitar_cotizar_proveedores_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:index
+    methods: [GET]
+
+app_invitar_cotizar_proveedores_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:create
+    methods: [GET, POST]
+
+app_invitar_cotizar_proveedores_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_invitar_cotizar_proveedores_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:delete
+    requirements:
+    methods: [DELETE]
+
+app_invitar_cotizar_proveedores_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:view
+    requirements:
+    methods: [GET]
+
+app_invitar_cotizar_proveedores_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:info
+    requirements:
+    methods: [POST]

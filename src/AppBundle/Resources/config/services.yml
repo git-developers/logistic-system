@@ -1,0 +1,75 @@
+services:
+
+    app.listener.doctrine:
+        class: AppBundle\EventListener\DoctrineListenerService
+        arguments: ["@service_container", "@security.token_storage"]
+        tags:
+          - { name: doctrine.event_listener, event: postUpdate }
+          - { name: doctrine.event_listener, event: preUpdate }
+          - { name: doctrine.event_listener, event: prePersist }
+          - { name: doctrine.event_listener, event: postLoad }
+          - { name: doctrine.event_listener, event: postRemove }
+
+    twig.extension.common:
+         class: AppBundle\Twig\Extension\CommonExtension
+         arguments: ['@doctrine.orm.entity_manager']
+         public: false
+         tags:
+             - { name: twig.extension }
+
+    app.form.usertype:
+        class: AppBundle\Form\UserType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: app.form.usertype }
+
+    app.form.profiletype:
+        class: AppBundle\Form\ProfileType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: core.form.profiletype }
+
+    app.form.profiletype:
+        class: AppBundle\Form\ProfileType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: core.form.profiletype }
+
+    app.form.requerimiento.type:
+        class: AppBundle\Form\RequerimientoType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags: [form.type]
+
+    app.form.categorytype:
+        class: AppBundle\Form\CategoryType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: app.form.categorytype }
+
+    twig.extension.boxmapper:
+         class: AppBundle\Twig\Extension\BoxMapperExtension
+         public: false
+         tags:
+             - { name: twig.extension }
+
+    #SERVICES
+    app.service.cruduser:
+        class: AppBundle\Services\CrudUser\CrudUser
+        tags:
+            - { name: app.service.cruduser, alias: app.service.cruduser }
+
+    app.service.crud:
+        class: AppBundle\Services\Crud\Crud
+        tags:
+            - { name: app.service.crud, alias: app.service.crud }
+
+    app.service.tree:
+        class: AppBundle\Services\Tree\Tree
+        tags:
+            - { name: app.service.tree, alias: app.service.tree }
+
+    app.service.treetoassign:
+        class: AppBundle\Services\TreeToAssign\TreeToAssign
+        tags:
+            - { name: app.service.treetoassign, alias: app.service.treetoassign }
+    #SERVICES
