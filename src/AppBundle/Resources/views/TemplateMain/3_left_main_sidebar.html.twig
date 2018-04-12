@@ -78,17 +78,44 @@
                 </a>
             </li>
 
-            <li class="treeview {% if app.request.get('_route') matches '(app_despacho_almacen_index)' %}active{% endif %}">
+            <li class="treeview
+                {% if app.request.get('_route') matches
+            '(app_despacho_almacen_index|app_invitar_cotizar_proveedores_index|app_despacho_almacen_view)' %}active{% endif %}"
+            >
                 <a href="{{ path('app_despacho_almacen_index') }}">
                     <i class="fa fa-cubes"></i>
                     <span>Despacho de almacen</span>
                 </a>
             </li>
 
-            <li class="treeview {% if app.request.get('_route') matches '(app_cotizar_proveedor_index)' %}active{% endif %}">
-                <a href="{{ path('app_cotizar_proveedor_index') }}">
+            <li class="treeview
+                {% if app.request.get('_route') matches
+            '(app_recepcion_mercaderia_index)' %}active{% endif %}"
+            >
+                <a href="{{ path('app_recepcion_mercaderia_index') }}">
                     <i class="fa fa-cubes"></i>
-                    <span>Cotizar proveedor</span>
+                    <span>Recepción de mercadería</span>
+                </a>
+            </li>
+
+            {#<li class="treeview {% if app.request.get('_route') matches '(app_invitar_cotizar_proveedores_index)' %}active{% endif %}">#}
+                {#<a href="{{ path('app_invitar_cotizar_proveedores_index') }}">#}
+                    {#<i class="fa fa-money"></i>#}
+                    {#<span>Invitar a cotizar proveedores</span>#}
+                {#</a>#}
+            {#</li>#}
+
+            <li class="treeview {% if app.request.get('_route') matches '(app_buscar_cotizacion_index)' %}active{% endif %}">
+                <a href="{{ path('app_buscar_cotizacion_index') }}">
+                    <i class="fa fa-search"></i>
+                    <span>Buscar cotizacion</span>
+                </a>
+            </li>
+
+            <li class="treeview {% if app.request.get('_route') matches '(app_generar_orden_compra_index)' %}active{% endif %}">
+                <a href="{{ path('app_generar_orden_compra_index') }}">
+                    <i class="fa fa-cc-visa"></i>
+                    <span>Generar Orden Compra</span>
                 </a>
             </li>
 
