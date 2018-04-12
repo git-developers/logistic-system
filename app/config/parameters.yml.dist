@@ -4,7 +4,7 @@
 parameters:
     database_host: localhost
     database_port: 3306
-    database_name: claro_pool_db
+    database_name: logistic_system_db
     database_user: root
     database_password: ~
     # You should uncomment this if you want to use pdo_sqlite
@@ -15,7 +15,9 @@ parameters:
     mailer_user: tianos-gmail
     mailer_password: null
 
-    project_name: Claro Pool
+    project_name: 'Sistemas Control Logistico'
+    project_name_html: '<b>SIS</b>colo'
+    project_name_html_mini: '<b>SIS</b>c'
     google_api_key: AIzaSyARZzXDkv1RY69OiFCvEIIE4D6wye0UOBA
 
     # A secret key that's used to generate certain security-related tokens

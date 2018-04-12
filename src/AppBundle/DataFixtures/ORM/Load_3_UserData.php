@@ -26,7 +26,7 @@ class Load_3_UserData extends AbstractFixture implements OrderedFixtureInterface
         $entity->setName('Alan');
         $entity->setLastName('Garcia');
         $entity->setImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuvnD8Z4Y8HdRYoidxmHLl7G_u8551SRmPjlEY_Hnz-YEuU-OF');
-        $entity->setEmail('jtienda@gmail.com');
+        $entity->setEmail('test@gmail.com');
         $entity->setIsActive(true);
         $entity->setProfile($profileJefeTienda);
         $manager->persist($entity);
