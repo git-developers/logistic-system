@@ -4,9 +4,9 @@
 parameters:
     database_host: localhost
     database_port: 3306
-    database_name: logistic_system_db
-    database_user: root
-    database_password: ~
+    database_name: grupoca7_logisticSystem
+    database_user: grupoca7_logisUS
+    database_password: EKhR7r[EbLz5
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
 
