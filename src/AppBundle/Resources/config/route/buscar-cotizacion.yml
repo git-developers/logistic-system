@@ -1,0 +1,39 @@
+app_buscar_cotizacion_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:index
+    methods: [GET]
+
+app_buscar_cotizacion_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:create
+    methods: [GET, POST]
+
+app_buscar_cotizacion_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_buscar_cotizacion_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:delete
+    requirements:
+    methods: [DELETE]
+
+app_buscar_cotizacion_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:view
+    requirements:
+    methods: [GET]
+
+app_buscar_cotizacion_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:BuscarCotizacion:info
+    requirements:
+    methods: [POST]

@@ -45,3 +45,11 @@ app_despacho_almacen:
 app_invitar_cotizar_proveedores:
     resource: '@AppBundle/Resources/config/route/invitar-cotizar-proveedores.yml'
     prefix: /invitar-cotizar-proveedores
+
+app_cotizar_proveedor:
+    resource: '@AppBundle/Resources/config/route/cotizar-proveedor.yml'
+    prefix: /cotizar-proveedor
+
+app_buscar_cotizacion:
+    resource: '@AppBundle/Resources/config/route/buscar-cotizacion.yml'
+    prefix: /buscar-cotizacion
