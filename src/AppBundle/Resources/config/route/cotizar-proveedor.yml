@@ -1,0 +1,39 @@
+app_cotizar_proveedor_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:CotizarProveedor:index
+    methods: [GET]
+
+app_cotizar_proveedor_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:CotizarProveedor:create
+    methods: [GET, POST]
+
+app_cotizar_proveedor_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:CotizarProveedor:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_cotizar_proveedor_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:CotizarProveedor:delete
+    requirements:
+    methods: [DELETE]
+
+app_cotizar_proveedor_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:CotizarProveedor:view
+    requirements:
+    methods: [GET]
+
+app_cotizar_proveedor_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:CotizarProveedor:info
+    requirements:
+    methods: [POST]

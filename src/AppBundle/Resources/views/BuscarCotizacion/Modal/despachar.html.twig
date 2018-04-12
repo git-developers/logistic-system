@@ -1,0 +1,75 @@
+{% spaceless %}
+    <div class="modal modal-success fade in" id="modal-despachar">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fa fa-fw fa-info-circle"></i> Info
+                    <i class="fa fa-refresh fa-spin" style="color: white; margin-left: 10px; display:none"></i>
+                </h4>
+            </div>
+
+            <div class="modal-content">
+                <form name="{{ crud.form_create_name }}" method="post" class="">
+                    <div class="modal-body">
+
+                        <div id="message" class="callout callout-danger" style="display: none;">
+                            <p></p>
+                        </div>
+
+                        <div class="modal-form">
+
+                            <div class="info-box bg-green">
+                                <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ entity.numero }}</span>
+                                    <span class="info-box-number">Despacho generado</span>
+
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 70%"></div>
+                                </div>
+                                <span class="progress-description">
+                                    -
+                                </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        {#pull-left#}
+                        <button type="button" class="btn btn-outline " data-dismiss="modal">Cerrar</button>
+                        {#<button type="submit" class="btn btn-outline">Agregar</button>#}
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endspaceless %}
+
+
+
+
+
+
+
+
+
+
+
+{#
+
+
+
+#}
+
+
+
+

@@ -85,6 +85,13 @@
                 </a>
             </li>
 
+            <li class="treeview {% if app.request.get('_route') matches '(app_cotizar_proveedor_index)' %}active{% endif %}">
+                <a href="{{ path('app_cotizar_proveedor_index') }}">
+                    <i class="fa fa-cubes"></i>
+                    <span>Cotizar proveedor</span>
+                </a>
+            </li>
+
         </ul>
 
     </section>
