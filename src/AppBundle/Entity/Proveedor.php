@@ -19,7 +19,7 @@ class Proveedor
      * @ORM\Column(name="id_increment", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @JMSS\Groups({"proveedor"})
+     * @JMSS\Groups({"proveedor", "quotation"})
      */
     private $idIncrement;
 
@@ -35,7 +35,7 @@ class Proveedor
      * @var string
      *
      * @ORM\Column(name="razon_social", type="string", length=45, nullable=true)
-     * @JMSS\Groups({"proveedor"})
+     * @JMSS\Groups({"proveedor", "quotation"})
      */
     private $razonSocial;
 

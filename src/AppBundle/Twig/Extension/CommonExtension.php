@@ -4,6 +4,7 @@ namespace AppBundle\Twig\Extension;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Product;
 
 class CommonExtension extends \Twig_Extension
 {
@@ -34,6 +35,7 @@ class CommonExtension extends \Twig_Extension
             new \Twig_SimpleFunction('randomBoxColor', [$this, 'randomBoxColorFunction'] ),
             new \Twig_SimpleFunction('randomCarouselColor', [$this, 'randomCarouselColorFunction'] ),
             new \Twig_SimpleFunction('getUser', [$this, 'getUserFunction'] ),
+            new \Twig_SimpleFunction('getStock', [$this, 'getStockFunction'] ),
         ];
     }
 
@@ -42,6 +44,14 @@ class CommonExtension extends \Twig_Extension
         $user = $this->em->getRepository(User::class)->find($userId);
 
         return $user->getName() . ' ' . $user->getLastName();
+
+    }
+
+    public function getStockFunction($productId)
+    {
+        $product = $this->em->getRepository(Product::class)->find($productId);
+
+        return $product->getStock();
 
     }
 

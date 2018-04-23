@@ -31,8 +31,8 @@ class GenerarRequerimientoController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $entity->setEstado(Requerimiento::ESTADO_APROBADO);
             $this->persist($entity);
-
 
             /**
              * RequerimientoHasProduct
@@ -60,9 +60,7 @@ class GenerarRequerimientoController extends BaseController
 
             $url = $this->generateUrl('app_despacho_almacen_index');
             return $this->redirect($url);
-
         }
-
 
         $product = $this->em()->getRepository(Product::class)->findAll();
         $product = $this->getSerializeDecode($product, 'product');

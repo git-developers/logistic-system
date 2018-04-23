@@ -35,6 +35,24 @@ class RequerimientoHasProductRepository extends EntityRepository
         return $query->getResult();
     }
 
+    public function findAllByRequerimientoCotizar($requerimientoId, $productId)
+    {
+        $em = $this->getEntityManager();
+        $dql = "
+            SELECT obj, product
+            FROM AppBundle:RequerimientoHasProduct obj
+            INNER JOIN obj.product product
+            WHERE
+            obj.requerimiento = :requerimiento AND 
+            product IN (:product)
+            ";
+
+        $query = $em->createQuery($dql);
+        $query->setParameter('requerimiento', $requerimientoId);
+        $query->setParameter('product', [$productId]);
+
+        return $query->getResult();
+    }
 
 
 }

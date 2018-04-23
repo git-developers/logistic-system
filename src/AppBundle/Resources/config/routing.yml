@@ -42,6 +42,10 @@ app_despacho_almacen:
     resource: '@AppBundle/Resources/config/route/despacho-almacen.yml'
     prefix: /despacho-almacen
 
+app_recepcion_mercaderia:
+    resource: '@AppBundle/Resources/config/route/recepcion-mercaderia.yml'
+    prefix: /recepcion-mercaderia
+
 app_invitar_cotizar_proveedores:
     resource: '@AppBundle/Resources/config/route/invitar-cotizar-proveedores.yml'
     prefix: /invitar-cotizar-proveedores
@@ -53,3 +57,12 @@ app_cotizar_proveedor:
 app_buscar_cotizacion:
     resource: '@AppBundle/Resources/config/route/buscar-cotizacion.yml'
     prefix: /buscar-cotizacion
+
+app_generar_orden_compra:
+    resource: '@AppBundle/Resources/config/route/generar-orden-compra.yml'
+    prefix: /generar-orden-compra
+
+app_quotation:
+    resource: '@AppBundle/Resources/config/route/quotation.yml'
+    prefix: /quotation
+

@@ -1,0 +1,39 @@
+app_recepcion_mercaderia_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:index
+    methods: [GET]
+
+app_recepcion_mercaderia_create:
+    path:  /create
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:create
+    methods: [GET, POST]
+
+app_recepcion_mercaderia_edit:
+    path:  /edit
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:edit
+    requirements:
+    methods: [POST, PUT]
+
+app_recepcion_mercaderia_delete:
+    path:  /delete
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:delete
+    requirements:
+    methods: [DELETE]
+
+app_recepcion_mercaderia_view:
+    path:  /view/{id}
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:view
+    requirements:
+    methods: [GET]
+
+app_recepcion_mercaderia_info:
+    path:  /info
+    defaults:
+        _controller: AppBundle:RecepcionMercaderia:info
+    requirements:
+    methods: [POST]

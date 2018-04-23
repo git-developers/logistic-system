@@ -2,7 +2,19 @@ app_invitar_cotizar_proveedores_index:
     path:  /
     defaults:
         _controller: AppBundle:InvitarCotizarProveedores:index
-    methods: [GET]
+    methods: [GET, POST]
+
+app_invitar_cotizar_proveedores_pasar_compras:
+    path:  /pasar-compras
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:pasarCompras
+    methods: [GET, POST]
+
+app_invitar_cotizar_proveedores_generar_cotizacion:
+    path:  /generar-cotizacion
+    defaults:
+        _controller: AppBundle:InvitarCotizarProveedores:generarCotizacion
+    methods: [GET, POST]
 
 app_invitar_cotizar_proveedores_create:
     path:  /create

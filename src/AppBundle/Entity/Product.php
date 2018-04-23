@@ -19,7 +19,7 @@ class Product
      * @ORM\Column(name="id_increment", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product"})
+     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product", "quote"})
      */
     private $idIncrement;
 
@@ -27,7 +27,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=45, nullable=true)
-     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product"})
+     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product", "quote"})
      */
     private $code;
 
@@ -52,7 +52,7 @@ class Product
      * @var integer
      *
      * @ORM\Column(name="stock", type="integer", nullable=true)
-     * @JMSS\Groups({"product"})
+     * @JMSS\Groups({"product", "quote", "requerimiento_has_product"})
      */
     private $stock;
 
@@ -60,7 +60,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=150, nullable=false)
-     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product"})
+     * @JMSS\Groups({"product", "cat_has_prod", "requerimiento_has_product", "category_has_product", "quote"})
      */
     private $name;
 

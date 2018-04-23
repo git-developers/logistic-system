@@ -27,13 +27,91 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
+            $(".form-control").prop('disabled', true);
+            // $("input, select").prop('disabled', true);
+        });
 
-            $("input, select").prop('disabled', true);
+        $("#pasar-compras").click(function(){
+
+            var fields = $("form[name='requerimiento']").serializeArray();
+
+            $.ajax({
+                url: '{{ path('app_invitar_cotizar_proveedores_pasar_compras') }}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    requerimiento_id: '{{ id }}',
+                    fields: fields
+                },
+                beforeSend: function(jqXHR, settings) {
+
+                },
+                success: function(data, textStatus, jqXHR) {
+
+                    if(data.status){
+
+                        window.location.href = "{{ path('app_invitar_cotizar_proveedores_index') }}";
+
+                    }else{
+
+                        $('#flashbag-warning').slideDown();
+                        $('#msg-warning').html(data.msg);
+
+                        setTimeout(function(){
+                            $('#flashbag-warning').slideUp();
+                        }, 3000);
+
+                    }
+                },
+                error: function(jqXHR, exception) {
+
+                }
+            });
 
         });
 
-        $("#despachar").click(function(){
-            $('#modal-despachar').modal('show');
+        $( "form[name='requerimiento']" ).submit(function( event ) {
+
+            event.preventDefault();
+
+            var fields = $("form[name='requerimiento']").serializeArray();
+
+            $.ajax({
+                url: '{{ path('app_despacho_almacen_view_create') }}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: '{{ id }}',
+                    fields: fields
+                },
+                beforeSend: function(jqXHR, settings) {
+
+                },
+                success: function(data, textStatus, jqXHR) {
+
+                    if(data.status){
+                        $('#modal-despachar').modal('show');
+
+                        setTimeout(function(){
+                            window.location.href = "{{ path('app_despacho_almacen_index') }}";
+                        }, 1500);
+
+                    }else{
+
+                        $('#flashbag-warning').slideDown();
+                        $('#msg-warning').html(data.msg);
+
+                        setTimeout(function(){
+                            $('#flashbag-warning').slideUp();
+                        }, 15000);
+
+                    }
+                },
+                error: function(jqXHR, exception) {
+
+                }
+            });
+
         });
 
     </script>
@@ -41,6 +119,11 @@
 {% endblock %}
 
 {% block content %}
+
+    <div id="flashbag-warning" class="flashbag flashbag-warning" style="display: none">
+        <a class="pull-right" href="#" rel="tooltip" data-toggle="tooltip" data-placement="left" title="cerrar">×</a>
+        <i class="fa fa-fw fa-warning"></i> <span id="msg-warning">-------</span>
+    </div>
 
     <section class="content-header">
         <h1>
@@ -76,7 +159,7 @@
                         <h3 class="box-title">Datos</h3>
                     </div>
 
-                    {{ form_start(formEntity)}}
+                    {{ form_start(formEntity, { 'attr': {'id': 'form-requerimiento'} } )}}
 
                     {{ form_errors(formEntity) }}
 
@@ -131,23 +214,38 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <i class="fa fa-fw fa-comment-o"></i>
+                                            {{ form_label(formEntity.comment) }}
+                                            {{ form_widget(formEntity.comment) }}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="pull-right">
 
                                     <div style="display: none">
                                         {{ form_widget(formEntity.submit) }}
                                     </div>
 
-                                    <button type="button"
-                                            id="despachar"
-                                            class="btn bg-orange btn-flat margin">
-                                        Despachar
-                                    </button>
-                                    <a type="button"
-                                       href="{{ path('app_invitar_cotizar_proveedores_index') }}"
-                                       id="pasar-compras"
-                                       class="btn bg-purple btn-flat margin">
-                                        Pasar a compras
-                                    </a>
+                                    {% if entity.estado != "COMPLETADO" %}
+
+                                        <button type="submit"
+                                                id="despachar"
+                                                class="btn bg-orange btn-flat margin">
+                                            Despachar
+                                        </button>
+
+                                        {#href="{{ path('app_invitar_cotizar_proveedores_index') }}"#}
+                                        <button type="button"
+                                           id="pasar-compras"
+                                           class="btn bg-purple btn-flat margin">
+                                            Pasar a compras
+                                        </button>
+
+                                    {% endif %}
 
                                 </div>
 
@@ -174,51 +272,60 @@
                                     </div>
                                     <div class="box-body">
 
-
                                         <table id="add-products"
                                                class="table table-bordered table-striped dataTable"
                                                role="grid"
                                                aria-describedby="example1_info">
                                             <thead>
                                             <tr>
-                                                {#<th>&nbsp</th>#}
+                                                <th>&nbsp</th>
                                                 <th>#</th>
                                                 <th>codigo</th>
                                                 <th>nombre</th>
-                                                {#<th>cantidad</th>#}
+                                                <th>cantidad pedida</th>
+                                                <th>stock</th>
                                             </tr>
                                             </thead>
                                             <tbody>
 
                                             {% for obj in products %}
 
-                                                {% set obj = obj|first %}
+                                                {#{% set obj = obj|first %}#}
 
-                                                <tr class="tr-table" id="td-add-product-{{ obj.id_increment|e }}">
-                                                    {#<td>#}
-                                                        {#<input type="checkbox" name="add-product[id][]" value="{{ obj.id_increment|e }}">#}
-                                                    {#</td>#}
+                                                <tr class="tr-table" id="td-add-product-{{ obj.product.id_increment|e }}">
                                                     <td>
-                                                    <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3">
-                                                        {{ obj.id_increment|e }}
-                                                    </span>
+                                                        <input type="checkbox" name="checkbox-pasar-compras" value="{{ obj.product.id_increment|e }}">
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3">
+                                                            {{ obj.product.id_increment|e }}
+                                                        </span>
                                                     </td>
                                                     <td>
                                                         <span data-toggle="tooltip" title="" class="badge bg-blue" data-original-title="3">
-                                                            {{ obj.code|e }}
+                                                            {{ obj.product.code|e }}
                                                         </span>
                                                     </td>
-                                                    <td>{{ obj.name|e }}</td>
-                                                    {#<td>#}
-                                                        {#<input type="number" name="add-product[stock][]" >#}
-                                                    {#</td>#}
+                                                    <td>{{ obj.product.name|e }}</td>
+                                                    <td>
+                                                        {{ obj.stock }}
+                                                    </td>
+                                                    <td>
+                                                        {{ getStock(obj.product.id_increment) }}
+                                                        {#<input type="number" name="add-product[stock][]" value="{{ obj.stock }}" >#}
+                                                    </td>
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="quantity"
+                                                        value="{{ obj.product.id_increment ~'#'~ obj.stock ~'#'~ getStock(obj.product.id_increment) }}" >
                                                 </tr>
                                             {% endfor %}
 
                                             </tbody>
                                             <tfoot>
                                             <tr>
-                                                {#<th>&nbsp</th>#}
+                                                <th>&nbsp</th>
                                                 <th>#</th>
                                                 <th>codigo</th>
                                                 <th>nombre</th>

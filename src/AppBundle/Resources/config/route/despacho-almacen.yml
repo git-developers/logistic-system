@@ -29,7 +29,14 @@ app_despacho_almacen_view:
     defaults:
         _controller: AppBundle:DespachoAlmacen:view
     requirements:
-    methods: [GET]
+    methods: [GET, POST]
+
+app_despacho_almacen_view_create:
+    path:  /view-create
+    defaults:
+        _controller: AppBundle:DespachoAlmacen:viewCreate
+    requirements:
+    methods: [GET, POST]
 
 app_despacho_almacen_info:
     path:  /info

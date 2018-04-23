@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Product;
@@ -44,6 +45,18 @@ class ProductType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'e.g. admin, editor, runner',
                 ],
+            ])
+            ->add('stock', IntegerType::class, [
+                'label' => 'stock',
+                'required' => false,
+                'label_attr' => [
+                    'class' => ''
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'stock',
+                ],
+                'error_bubbling' => true
             ])
             ->add('image', TextType::class, [
                 'label' => 'image',

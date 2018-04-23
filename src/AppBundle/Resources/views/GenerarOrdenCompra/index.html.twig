@@ -99,7 +99,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-cubes"></i> Listar requerimiento
+            <i class="fa fa-fw fa-cc-visa"></i> Generar Orden Compra
             <small>lista</small>
         </h1>
         <ol class="breadcrumb">
@@ -133,6 +133,20 @@
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
 
+                                {#<button type="button"#}
+                                        {#id="cotizacion-unica"#}
+                                        {#class="btn bg-orange btn-flat margin">#}
+                                    {#Cotizacion unica#}
+                                {#</button>#}
+
+                                <a type="button"
+                                   href="{{ path('app_invitar_cotizar_proveedores_index') }}"
+                                   id="pasar-compras"
+                                   class="btn bg-purple btn-flat margin">
+                                    Generar Orden Compra
+                                </a>
+
+
                                 <table id="{{ crud.table_name }}"
                                        class="table table-bordered table-striped dataTable"
                                        role="grid"
@@ -143,9 +157,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -170,19 +183,8 @@
                                                     </small>
                                                 </td>
                                                 <td>{{ obj.almacen|e }}</td>
-                                                <td>{{ obj.comment|e }}</td>
                                                 <td>{{ obj.fecha_requerida|date('Y-m-d') }}</td>
-                                                <td>
-                                                    {% if obj.estado == "APROBADO" %}
-                                                        <button type="button" class="btn btn-warning btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% elseif obj.estado == "COMPLETADO" %}
-                                                        <button type="button" class="btn btn-success btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% endif %}
-                                                </td>
+                                                <td>xxxx</td>
                                             </tr>
                                         {% endfor %}
 
@@ -193,9 +195,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </tfoot>
                                 </table>

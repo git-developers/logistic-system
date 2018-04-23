@@ -28,27 +28,12 @@
 
         $(document).ready(function() {
 
-            $('form[name="{{ crud.form_create_name }}"]').submit(function( event ) {
-                event.preventDefault();
+            $("input, select").prop('disabled', true);
 
-                // $('#products tbody').html("");
+        });
 
-                // $('#products').each( function(){
-                //     this.parentNode.removeChild( this );
-                // });
-
-
-                var fields = $(this).serializeArray();
-
-                $.each( fields, function( key, value ) {
-                    var $div = $('#td-add-product-' + value.value).clone();
-                    $('#products tbody').after($div);
-                });
-
-                $('#modal-add-product').modal('hide');
-
-            });
-
+        $("#despachar").click(function(){
+            $('#modal-despachar').modal('show');
         });
 
     </script>
@@ -59,8 +44,12 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-file-code-o"></i> Generar Requerimiento
-            <small>crear</small>
+            <i class="fa fa-fw fa-cubes"></i>
+            Detalle Requerimiento
+            <span data-toggle="tooltip" title="" class="badge bg-light-blue">
+                {{ entity.numero }}
+            </span>
+            <small>detalle</small>
         </h1>
         <ol class="breadcrumb">
             {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
@@ -135,32 +124,38 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <i class="fa fa-fw fa-home"></i>
+                                            <i class="fa fa-fw fa-calendar"></i>
                                             {{ form_label(formEntity.fechaRequerida) }}
                                             {{ form_widget(formEntity.fechaRequerida) }}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <i class="fa fa-fw fa-comment-o"></i>
-                                            {{ form_label(formEntity.comment) }}
-                                            {{ form_widget(formEntity.comment) }}
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="pull-right">
-                                    {{ form_widget(formEntity.submit) }}
+
+                                    <div style="display: none">
+                                        {{ form_widget(formEntity.submit) }}
+                                    </div>
+
+                                    <button type="button"
+                                            id="despachar"
+                                            class="btn bg-orange btn-flat margin">
+                                        Despachar
+                                    </button>
+                                    <a type="button"
+                                       href="{{ path('app_invitar_cotizar_proveedores_index') }}"
+                                       id="pasar-compras"
+                                       class="btn bg-purple btn-flat margin">
+                                        Pasar a compras
+                                    </a>
+
                                 </div>
 
                             </div>
 
                             <div class="col-md-6">
 
-                                <div class="box box-success box-solid">
+                                <div class="box box-warning box-solid">
                                     <div class="box-header with-border">
                                         <h3 class="box-title">
                                             <i class="fa fa-fw fa-sort-alpha-desc"></i>
@@ -169,49 +164,71 @@
 
                                         <div class="box-tools pull-right">
 
-                                            {#data-widget="collapse"#}
                                             <button type="button"
                                                     class="btn btn-box-tool"
-                                                    data-toggle="modal"
-                                                    data-target="#modal-add-product"
-                                                    style="background-color: white !important; color: #0b3e6f"
+                                                    data-widget="collapse"
                                             >
-                                                {#<i class="fa fa-minus"></i>#}
-                                                <i class="fa fa-fw fa-plus-square"></i>
-                                                Agregar productos
+                                                <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="box-body">
 
-                                        <table id="products"
+
+                                        <table id="add-products"
                                                class="table table-bordered table-striped dataTable"
                                                role="grid"
                                                aria-describedby="example1_info">
                                             <thead>
                                             <tr>
-                                                <th>&nbsp</th>
+                                                {#<th>&nbsp</th>#}
                                                 <th>#</th>
                                                 <th>codigo</th>
                                                 <th>nombre</th>
-                                                <th>cantidad</th>
+                                                {#<th>cantidad</th>#}
                                             </tr>
                                             </thead>
-
                                             <tbody>
 
-                                            </tbody>
+                                            {% for obj in products %}
 
+                                                {% set obj = obj|first %}
+
+                                                <tr class="tr-table" id="td-add-product-{{ obj.id_increment|e }}">
+                                                    {#<td>#}
+                                                        {#<input type="checkbox" name="add-product[id][]" value="{{ obj.id_increment|e }}">#}
+                                                    {#</td>#}
+                                                    <td>
+                                                    <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3">
+                                                        {{ obj.id_increment|e }}
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip" title="" class="badge bg-blue" data-original-title="3">
+                                                            {{ obj.code|e }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ obj.name|e }}</td>
+                                                    {#<td>#}
+                                                        {#<input type="number" name="add-product[stock][]" >#}
+                                                    {#</td>#}
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
                                             <tfoot>
                                             <tr>
-                                                <th>&nbsp</th>
+                                                {#<th>&nbsp</th>#}
                                                 <th>#</th>
                                                 <th>codigo</th>
                                                 <th>nombre</th>
-                                                <th>cantidad</th>
+                                                {#<th>cantidad</th>#}
                                             </tr>
                                             </tfoot>
                                         </table>
+
+
+
                                     </div>
                                 </div>
 
@@ -232,10 +249,6 @@
         </div>
     </section>
 
-    {{ include('AppBundle:GenerarRequerimiento:Modal/add-product.html.twig') }}
-    {#{{ include('AppBundle:Crud:Modal/edit.html.twig') }}#}
-    {#{{ include('AppBundle:Crud:Modal/delete.html.twig') }}#}
-    {#{{ include('AppBundle:Crud:Modal/view.html.twig') }}#}
-    {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
+    {{ include('AppBundle:DespachoAlmacen:Modal/despachar.html.twig') }}
 
 {% endblock %}

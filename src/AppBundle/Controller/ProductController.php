@@ -46,7 +46,9 @@ class ProductController extends CrudController
         $dataTable
             ->addColumn('#', " '<span class=\"badge bg-blue\">' + obj.id_increment + '</span>' ")
             ->addColumn('Image', " '<img class=\"img-circle img-thumbnail\" style=\"height: 70px\" src=\"' + obj.image + '\">' ")
+            ->addColumn('Codigo', " '<small class=\"label label-primary\">' + obj.code + '</small>' ")
             ->addColumn('Nombre', 'obj.name')
+            ->addColumn('stock', 'obj.stock')
             ->addColumn('Slug', 'obj.slug')
             ->addColumn('Creado', 'obj.created_at', [
                 'icon' => 'calendar'

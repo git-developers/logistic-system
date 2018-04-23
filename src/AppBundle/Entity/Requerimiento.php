@@ -25,6 +25,7 @@ class Requerimiento
 
     const ESTADO_APROBADO = 'APROBADO';
     const ESTADO_NO_APROBADO = 'NO_APROBADO';
+    const ESTADO_COMPLETADO = 'COMPLETADO';
 
     /**
      * @var integer
@@ -32,7 +33,7 @@ class Requerimiento
      * @ORM\Column(name="id_increment", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @JMSS\Groups({"requerimiento", "requerimiento_has_product"})
+     * @JMSS\Groups({"requerimiento", "requerimiento_has_product", "quote"})
      */
     private $idIncrement;
 
@@ -88,10 +89,9 @@ class Requerimiento
      * @var string
      *
      * @ORM\Column(name="estado", type="string", length=45, nullable=true)
-     * @JMSS\Groups({"requerimiento", "requerimiento_has_product"})
+     * @JMSS\Groups({"requerimiento", "requerimiento_has_product", "quote"})
      */
     private $estado;
-
 
     /**
      * @var string
@@ -100,6 +100,14 @@ class Requerimiento
      * @JMSS\Groups({"requerimiento"})
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=150, nullable=true)
+     * @JMSS\Groups({"requerimiento"})
+     */
+    private $comment;
 
     /**
      * @var string
@@ -226,6 +234,22 @@ class Requerimiento
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
     }
 
     /**

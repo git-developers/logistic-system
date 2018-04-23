@@ -34,11 +34,6 @@
     {% javascripts
         '@AppBundle/Resources/public/main-assets/plugins/datatables/jquery.dataTables.min.js'
         '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.min.js'
-        '@AppBundle/Resources/public/crud/js/formCreate.js'
-        '@AppBundle/Resources/public/crud/js/formEdit.js'
-        '@AppBundle/Resources/public/crud/js/formDelete.js'
-        '@AppBundle/Resources/public/crud/js/formView.js'
-        '@AppBundle/Resources/public/crud/js/formInfo.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -54,41 +49,6 @@
                 },
             });
 
-
-            $('body.{{ crud.body_css }}').formCreate({
-                form_create_name: '{{ crud.form_create_name }}',
-                modal_create_id: '{{ crud.modal_create_id }}',
-                route_create: '{{ crud.route_create }}',
-                table_json: tableJson,
-            });
-
-            $('body.{{ crud.body_css }}').formEdit({
-                form_input_id: '{{ crud.form_input_id }}',
-                form_edit_name: '{{ crud.form_edit_name }}',
-                modal_edit_id: '{{ crud.modal_edit_id }}',
-                route_edit: '{{ crud.route_edit }}',
-                table_json: tableJson,
-            });
-
-            $('body.{{ crud.body_css }}').formDelete({
-                form_input_id: '{{ crud.form_input_id }}',
-                form_delete_name: '{{ crud.form_delete_name }}',
-                modal_delete_id: '{{ crud.modal_delete_id }}',
-                route_delete: '{{ crud.route_delete }}',
-                table_json: tableJson,
-            });
-
-            $('body.{{ crud.body_css }}').formView({
-                modal_view_id: '{{ crud.modal_view_id }}',
-                route_view: '{{ crud.route_view }}',
-                table_td_class: '{{ crud.table_td_class }}',
-            });
-
-            $('body.{{ crud.body_css }}').formInfo({
-                modal_info_id: '{{ crud.modal_info_id }}',
-                route_info: '{{ crud.route_info }}',
-            });
-
         });
 
     </script>
@@ -99,7 +59,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-cubes"></i> Listar requerimiento
+            <i class="fa fa-fw fa-sticky-note"></i> Lista de Ordenes Compra
             <small>lista</small>
         </h1>
         <ol class="breadcrumb">
@@ -143,9 +103,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -170,19 +129,8 @@
                                                     </small>
                                                 </td>
                                                 <td>{{ obj.almacen|e }}</td>
-                                                <td>{{ obj.comment|e }}</td>
                                                 <td>{{ obj.fecha_requerida|date('Y-m-d') }}</td>
-                                                <td>
-                                                    {% if obj.estado == "APROBADO" %}
-                                                        <button type="button" class="btn btn-warning btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% elseif obj.estado == "COMPLETADO" %}
-                                                        <button type="button" class="btn btn-success btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% endif %}
-                                                </td>
+                                                <td>xxxx</td>
                                             </tr>
                                         {% endfor %}
 
@@ -193,9 +141,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </tfoot>
                                 </table>

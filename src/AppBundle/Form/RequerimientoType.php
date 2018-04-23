@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Requerimiento;
@@ -48,7 +49,7 @@ class RequerimientoType extends AbstractType
             ->add('compania', ChoiceType::class, [
                 'label' => 'Compañia',
                 'choices' => [
-                    'Compañia 1' => 'Compañia 1',
+                    'SUPER NIKKEI SAC' => 'SUPER NIKKEI SAC',
                     'Compañia 2' => 'Compañia 2',
                     'Compañia 3' => 'Compañia 3'
                 ],
@@ -68,6 +69,14 @@ class RequerimientoType extends AbstractType
                     'readonly' => true,
                 ],
             ])
+            ->add('comment', TextareaType::class, [
+                'label' => 'comentario',
+                'label_attr' => ['class' => ''],
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '---',
+                ],
+            ])
             ->add('prioridad', ChoiceType::class, [
                 'label' => 'Compañia',
                 'choices' => [
@@ -84,9 +93,8 @@ class RequerimientoType extends AbstractType
             ->add('almacen', ChoiceType::class, [
                 'label' => 'Almacen',
                 'choices' => [
-                    'Almacen 1' => 'Almacen 1',
-                    'Almacen 2' => 'Almacen 2',
-                    'Almacen 3' => 'Almacen 3',
+                    'ALMACEN BREÑA' => 'ALMACEN BREÑA',
+                    'ALMACEN TIENDA' => 'ALMACEN TIENDA',
                 ],
                 'label_attr' => ['class' => ''],
                 'attr' => [

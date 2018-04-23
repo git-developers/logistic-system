@@ -99,7 +99,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-cubes"></i> Listar requerimiento
+            <i class="fa fa-fw fa-cubes"></i> Recepcion Mercaderia
             <small>lista</small>
         </h1>
         <ol class="breadcrumb">
@@ -143,9 +143,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -170,19 +169,8 @@
                                                     </small>
                                                 </td>
                                                 <td>{{ obj.almacen|e }}</td>
-                                                <td>{{ obj.comment|e }}</td>
                                                 <td>{{ obj.fecha_requerida|date('Y-m-d') }}</td>
-                                                <td>
-                                                    {% if obj.estado == "APROBADO" %}
-                                                        <button type="button" class="btn btn-warning btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% elseif obj.estado == "COMPLETADO" %}
-                                                        <button type="button" class="btn btn-success btn-xs">
-                                                            {{ obj.estado }}
-                                                        </button>
-                                                    {% endif %}
-                                                </td>
+                                                <td>xxxx</td>
                                             </tr>
                                         {% endfor %}
 
@@ -193,9 +181,8 @@
                                             <th>Compañia</th>
                                             <th>Prioridad</th>
                                             <th>Almacen</th>
-                                            <th>Comentario</th>
                                             <th>Fecha Requerida</th>
-                                            <th>Estado</th>
+                                            <th>User</th>
                                         </tr>
                                     </tfoot>
                                 </table>

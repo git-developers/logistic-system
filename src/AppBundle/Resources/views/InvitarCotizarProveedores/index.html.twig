@@ -34,11 +34,6 @@
     {% javascripts
         '@AppBundle/Resources/public/main-assets/plugins/datatables/jquery.dataTables.min.js'
         '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.min.js'
-        '@AppBundle/Resources/public/crud/js/formCreate.js'
-        '@AppBundle/Resources/public/crud/js/formEdit.js'
-        '@AppBundle/Resources/public/crud/js/formDelete.js'
-        '@AppBundle/Resources/public/crud/js/formView.js'
-        '@AppBundle/Resources/public/crud/js/formInfo.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -47,11 +42,9 @@
 
         $(document).ready(function() {
 
-
             $("#cotizacion-unica").click(function(){
                 $('#modal-cotizacion-unica').modal('show');
             });
-
 
         });
 
@@ -60,6 +53,13 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if isEmpty %}
+        <div id="flashbag-warning" class="flashbag flashbag-warning">
+            <a class="pull-right" href="#" rel="tooltip" data-toggle="tooltip" data-placement="left" title="cerrar">×</a>
+            <i class="fa fa-fw fa-warning"></i> Generar Contizacion:: Seleccione producto
+        </div>
+    {% endif %}
 
     <section class="content-header">
         <h1>
@@ -93,84 +93,106 @@
                     </div>
                     #}
 
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-sm-12 table-responsive">
+                    <form method="post">
 
-                                <button type="button"
-                                        id="cotizacion-unica"
-                                        class="btn bg-orange btn-flat margin">
-                                    Cotizacion unica
-                                </button>
-                                <a type="button"
-                                   href="{{ path('app_invitar_cotizar_proveedores_index') }}"
-                                   id="pasar-compras"
-                                   class="btn bg-purple btn-flat margin">
-                                    Generar Orden Compra
-                                </a>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 table-responsive">
 
-                                <table id="{{ crud.table_name }}"
-                                       class="table table-bordered table-striped dataTable"
-                                       role="grid"
-                                       aria-describedby="example1_info">
-                                    <thead>
-                                        <tr>
-                                            <th>&nbsp</th>
-                                            <th>#</th>
-                                            <th>almacen</th>
-                                            <th>product</th>
-                                        </tr>
-                                    </thead>
-                                        <tbody>
+                                    {#
+                                    <a type="button"
+                                       href="{{ path('app_invitar_cotizar_proveedores_index') }}"
+                                       id="pasar-compras"
+                                       class="btn bg-purple btn-flat margin">
+                                        Generar Orden Compra
+                                    </a>
 
+                                    <button type="button"
+                                            id="cotizacion-unica"
+                                            class="btn bg-orange btn-flat margin">
+                                        Cotizacion unica
+                                    </button>
+                                    #}
 
-                                        {% for obj in entity %}
-                                            <tr class="tr-table x-hand"
-                                                {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                    <button type="submit"
+                                            class="btn bg-purple btn-flat margin">
+                                        Generar cotizacion unica
+                                    </button>
 
-                                            >
-                                                <td>
-                                                    <input type="checkbox" value="{{ obj.id|e }}">
-                                                </td>
-                                                <td>
-                                                    <span data-toggle="tooltip"
-                                                          title=""
-                                                          class="badge bg-yellow"
-                                                          data-original-title="{{ obj.id|e }}">
-                                                        {{ obj.id|e }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <small class="label label-primary">
-                                                        {{ obj.requerimiento.id_increment|e }}
-                                                    </small>
-                                                    &nbsp;
-                                                    {{ obj.requerimiento.almacen|e }}
-                                                </td>
-                                                <td>
-                                                    <small class="label label-primary">
-                                                        {{ obj.product.id_increment|e }}
-                                                    </small>
-                                                    &nbsp;
-                                                    {{ obj.product.name|e }}
-                                                </td>
+                                    <table id="{{ crud.table_name }}"
+                                           class="table table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info">
+                                        <thead>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>Requerimiento</th>
+                                                <th>Codigo Producto</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad pedida</th>
+                                                <th>Stock</th>
                                             </tr>
-                                        {% endfor %}
+                                        </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>&nbsp</th>
-                                            <th>#</th>
-                                            <th>almacen</th>
-                                            <th>product</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                            {% for obj in productsArray %}
 
+                                                {% set obj = obj|first %}
+
+                                                <tr class="tr-table " {# x-hand #}
+                                                    {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                                >
+                                                    <td>
+                                                        <input
+                                                            type="checkbox"
+                                                            name="quote[]"
+                                                            value="{{ obj.requerimiento.id_increment ~'#'~ obj.product.id_increment }}">
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip"
+                                                              title=""
+                                                              class="badge bg-yellow"
+                                                              data-original-title="{{ obj.requerimiento.id_increment|e }}">
+                                                            000{{ obj.requerimiento.id_increment|e }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ obj.product.id_increment|e }} -
+                                                        <small class="label label-primary">
+                                                            {{ obj.product.code|e }}
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        {{ obj.product.name|e }}
+                                                    </td>
+                                                    <td>
+                                                        {{ obj.stock|e }}
+                                                    </td>
+                                                    <td>
+                                                        {{ obj.product.stock|e }}
+                                                    </td>
+                                                </tr>
+
+                                            {% endfor %}
+
+                                            </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>Requerimiento</th>
+                                                <th>Codigo Producto</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad pedida</th>
+                                                <th>Stock</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    </form>
 
                 </div>
             </div>

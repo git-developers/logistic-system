@@ -1,0 +1,323 @@
+{% extends "AppBundle::template.html.twig" %}
+
+{% block bodyclass %}{% spaceless %}
+    {{ crud.body_css }}
+{% endspaceless %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+    filter='cssrewrite'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.css'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/extensions/Editor/css/editor.dataTables.min.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    <style>
+        table#{{ crud.table_name }} tr.{{ crud.table_tr_class }}:hover {
+            background-color: #d2d6de;
+            cursor: pointer;
+        }
+        input[type=checkbox] {
+            height: 20px;
+            width: 20px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/jquery.dataTables.min.js'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("input[type=checkbox]").click(function(){
+
+                var id = $(this).val();
+
+                var checkbox = $('#precio-unitario-' + id);
+
+                if($(this).is(':checked')){
+                    checkbox.prop( "disabled", false );
+                } else {
+                    checkbox.prop( "disabled", true );
+                }
+
+            });
+
+            $("#cotizacion-unica").click(function(){
+                $('#modal-cotizacion-unica').modal('show');
+            });
+
+            $(".precio_unitario").keyup(function(){
+
+                var id = $(this).data('id');
+                var cantidadPedida = $('#cantidad-pedida-' + id).text().trim();
+                var precioUnitario = $(this).val();
+
+                var monto = parseInt(cantidadPedida) * parseInt(precioUnitario);
+                $('#monto-' + id).text("S/" + monto);
+                $('#sub-total-monto-' + id).val(monto);
+
+                var subTotalMonto = 0;
+                var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+                $('.sub-total-monto').each(function(){
+
+                    if(numberRegex.test($(this).val())) {
+                        subTotalMonto = subTotalMonto + parseInt($(this).val());
+                    }
+
+                });
+                $('#monto_total').val(subTotalMonto);
+
+
+                // $("input").css("background-color", "pink");
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    {% if isEmpty %}
+        <div id="flashbag-warning" class="flashbag flashbag-warning">
+            <a class="pull-right" href="#" rel="tooltip" data-toggle="tooltip" data-placement="left" title="cerrar">×</a>
+            <i class="fa fa-fw fa-warning"></i> Seleccione producto
+        </div>
+    {% endif %}
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-fw fa-calculator"></i> Generar cotizacion
+            <small>lista</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+
+            {#<li>#}
+                {#<a class="btn btn-success btn-xs modal-create"#}
+                        {#alt="Crear item"#}
+                        {#title="Crear item"#}
+                        {#href="{{ path('app_generar_requerimiento_create') }}"#}
+                        {#style="margin-right: 5px; color:white">#}
+                    {#<i class="fa fa-fw fa-plus"></i> crear requerimiento#}
+                {#</a>#}
+            {#</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+
+                    {#
+                    <div class="box-header">
+                        <h3 class="box-title">Data Table With Full Features</h3>
+                    </div>
+                    #}
+
+                    <form method="post">
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 table-responsive">
+
+                                    {#
+                                    <a type="button"
+                                       href="{{ path('app_invitar_cotizar_proveedores_index') }}"
+                                       id="pasar-compras"
+                                       class="btn bg-purple btn-flat margin">
+                                        Generar Orden Compra
+                                    </a>
+
+                                    <button type="button"
+                                            id="cotizacion-unica"
+                                            class="btn bg-orange btn-flat margin">
+                                        Cotizacion unica
+                                    </button>
+                                    #}
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <button type="submit"
+                                                    class="btn bg-purple btn-flat margin">
+                                                Generar cotizacion
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <i class="fa fa-fw fa-user-plus"></i>
+                                                <label class="required" for="requerimiento_compania"> &nbsp; Proveedor</label>
+                                                <select id="requerimiento_compania" name="quotation[proveedor]" class="form-control" placeholder="">
+                                                    {% for proveedorObj in proveedor %}
+                                                        <option value="{{ proveedorObj.id_increment }}">{{ proveedorObj.razon_social }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <i class="fa fa-fw fa-cc-visa"></i>
+                                                <label class="required" for="requerimiento_compania"> &nbsp; Forma de pago</label>
+                                                <select id="requerimiento_compania" name="quotation[forma_pago]" class="form-control" placeholder="">
+                                                    <option value="Contado">Contado</option>
+                                                    <option value="Credito 45">Credito 45</option>
+                                                    <option value="Credito 30">Credito 30</option>
+                                                    <option value="Credito 15">Credito 15</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <i class="fa fa-fw fa-money"></i>
+                                                <label class="required" for="requerimiento_compania"> &nbsp; Monto Total</label>
+                                                <input type="text"
+                                                       id="monto_total"
+                                                       name="quotation[monto_total]"
+                                                       required="required" class="form-control"
+                                                       placeholder="S/0.00"
+                                                       onfocus="blur()"
+                                                       {#readonly#}
+                                                       value="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table id="{{ crud.table_name }}"
+                                           class="table table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info">
+                                        <thead>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>Requerimiento</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad pedida</th>
+                                                <th>Precio unitario</th>
+                                                <th>monto</th>
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+
+                                            {% for obj in productsArray %}
+
+                                                {% set obj = obj|first %}
+
+                                                <tr class="tr-table " {# x-hand #}
+                                                    {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                                >
+                                                    <td>
+                                                        <input
+                                                            type="hidden"
+                                                            name="quotation[requerimiento][]"
+                                                            value="{{ obj.id ~'#'~ obj.requerimiento.id_increment }}">
+                                                        <input
+                                                            type="hidden"
+                                                            name="quotation[product][]"
+                                                            value="{{ obj.id ~'#'~ obj.product.id_increment }}">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="quotation[id][]"
+                                                            value="{{ obj.id }}">
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip"
+                                                              title=""
+                                                              class="badge bg-yellow"
+                                                              data-original-title="{{ obj.requerimiento.id_increment|e }}">
+                                                            000{{ obj.requerimiento.id_increment|e }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ obj.product.id_increment|e }} -
+                                                        <small class="label label-primary">
+                                                            {{ obj.product.code|e }}
+                                                        </small>
+                                                        &nbsp;
+                                                        {{ obj.product.name|e }}
+                                                    </td>
+                                                    <td id="cantidad-pedida-{{ obj.id }}">
+                                                        <input
+                                                            type="hidden"
+                                                            name="quotation[cantidad_pedida][]"
+                                                            value="{{ obj.id ~'#'~ obj.stock }}">
+                                                        {{ obj.stock|e }}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               name="quotation[precio_unitario][]"
+                                                               id="precio-unitario-{{ obj.id }}"
+                                                               required="required"
+                                                               class="form-control precio_unitario"
+                                                               data-id="{{ obj.id }}"
+                                                               placeholder="S/0.00"
+                                                               disabled
+                                                               value="">
+                                                    </td>
+                                                    <td>
+                                                        <small id="monto-{{ obj.id }}" class="label pull-right bg-blue" style="font-size: 18px">
+                                                            S/0.00
+                                                        </small>
+                                                        <input
+                                                            id="sub-total-monto-{{ obj.id }}"
+                                                            type="hidden"
+                                                            class="sub-total-monto">
+                                                    </td>
+                                                </tr>
+
+                                            {% else %}
+                                                <tr class="tr-table ">
+                                                    <td colspan="6">
+                                                        No hay items.
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>&nbsp</th>
+                                                <th>Requerimiento</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad pedida</th>
+                                                <th>Precio unitario</th>
+                                                <th>monto</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ include('AppBundle:InvitarCotizarProveedores:Modal/cotizacion-unica.html.twig') }}
+    {#{{ include('AppBundle:Crud:Modal/edit.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/delete.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/view.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
+
+{% endblock %}
