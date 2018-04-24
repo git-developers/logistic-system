@@ -21,8 +21,8 @@
             cursor: pointer;
         }
         input[type=checkbox] {
-            height: 16px;
-            width: 16px;
+            height: 20px;
+            width: 20px;
         }
     </style>
 
@@ -89,61 +89,135 @@
                     </div>
                     #}
 
+                    <form method="post">
+
                     <div class="box-body">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
+
+
+                                <button type="submit"
+                                        class="btn bg-purple btn-flat margin">
+                                    Generar orden de compra
+                                </button>
 
                                 <table id="{{ crud.table_name }}"
                                        class="table table-bordered table-striped dataTable"
                                        role="grid"
                                        aria-describedby="example1_info">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Compañia</th>
-                                            <th>Prioridad</th>
-                                            <th>Almacen</th>
-                                            <th>Fecha Requerida</th>
-                                            <th>User</th>
-                                        </tr>
+                                    <tr>
+                                        <th>&nbsp</th>
+                                        <th>#</th>
+                                        <th>Requerimiento</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad pedida</th>
+                                        <th>Precio unitario</th>
+                                        <th>Proveedor</th>
+                                        <th>Estado</th>
+                                    </tr>
                                     </thead>
-                                        <tbody>
+                                    <tbody>
 
-                                        {% for obj in entity %}
-                                            <tr class="tr-table x-hand"
-                                                onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id_increment}) }}';"
+                                    {% for obj in entity %}
 
-                                            >
-                                                <td>
-                                                    <span data-toggle="tooltip"
-                                                          title=""
-                                                          class="badge bg-yellow"
-                                                          data-original-title="{{ obj.id_increment|e }}">
-                                                        {{ obj.id_increment|e }}
-                                                    </span>
-                                                </td>
-                                                <td>{{ obj.compania|e }}</td>
-                                                <td>
-                                                    <small class="label label-primary">
-                                                        {{ obj.prioridad|e }}
-                                                    </small>
-                                                </td>
-                                                <td>{{ obj.almacen|e }}</td>
-                                                <td>{{ obj.fecha_requerida|date('Y-m-d') }}</td>
-                                                <td>xxxx</td>
-                                            </tr>
-                                        {% endfor %}
+                                        {#{% set obj = obj|first %}#}
 
-                                        </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Compañia</th>
-                                            <th>Prioridad</th>
-                                            <th>Almacen</th>
-                                            <th>Fecha Requerida</th>
-                                            <th>User</th>
+                                        <tr class="tr-table " {# x-hand #}
+                                                {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                        >
+                                            <td>
+                                                <input
+                                                    type="hidden"
+                                                    name="quotation[requerimiento][]"
+                                                    value="{{ obj.requerimiento_id }}">
+                                                <input
+                                                        type="hidden"
+                                                        name="quotation[product][]"
+                                                        value="{{ obj.id ~'#'~ obj.product_id }}">
+                                                <input
+                                                        type="checkbox"
+                                                        name="quotation[id][]"
+                                                        value="{{ obj.id }}">
+                                            </td>
+                                            <td>
+                                                {{ obj.id }}
+                                            </td>
+                                            <td>
+                                                <span data-toggle="tooltip"
+                                                      title=""
+                                                      class="badge bg-yellow"
+                                                      data-original-title="{{ obj.requerimiento_id }}">
+                                                    000{{ obj.requerimiento_id }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {#{{ obj.product_id|e }} -#}
+                                                <small class="label label-primary">
+                                                    {#{{ obj.product.code|e }}#}
+                                                    {{ obj.product_id|e }}
+                                                </small>
+                                                &nbsp;
+                                                {#{{ obj.product.name|e }}#}
+                                            </td>
+                                            <td id="cantidad-pedida-{{ obj.id }}">
+                                                <input
+                                                        type="hidden"
+                                                        name="quotation[cantidad_pedida][]"
+                                                        value="{{ obj.cantidad_pedida }}">
+                                                {{ obj.cantidad_pedida|e }}
+                                            </td>
+                                            <td>
+                                                S/ {{ obj.precio_unitario }}
+                                            </td>
+                                            <td>
+                                                <small class="label label-primary">
+                                                    {{ obj.proveedor.id_increment }}
+                                                </small>
+                                                &nbsp;
+                                                {{ obj.proveedor.razon_social }}
+                                            </td>
+                                            <td>
+                                                {% if obj.estado == "APROBADO" %}
+                                                    <button type="button" class="btn btn-warning btn-xs">
+                                                        {{ obj.estado }}
+                                                    </button>
+                                                {% elseif obj.estado == "COMPLETADO" %}
+                                                    <button type="button" class="btn btn-success btn-xs">
+                                                        {{ obj.estado }}
+                                                    </button>
+                                                {% endif %}
+
+                                                {#<small id="monto-{{ obj.id }}" class="label pull-right bg-blue" style="font-size: 18px">#}
+                                                    {#S/0.00#}
+                                                {#</small>#}
+                                                {#<input#}
+                                                    {#id="sub-total-monto-{{ obj.id }}"#}
+                                                    {#type="hidden"#}
+                                                    {#class="sub-total-monto">#}
+                                            </td>
                                         </tr>
+
+                                    {% else %}
+                                        <tr class="tr-table ">
+                                            <td colspan="6">
+                                                No hay items.
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>&nbsp</th>
+                                        <th>#</th>
+                                        <th>Requerimiento</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad pedida</th>
+                                        <th>Precio unitario</th>
+                                        <th>Proveedor</th>
+                                        <th>Estado</th>
+                                    </tr>
                                     </tfoot>
                                 </table>
 
@@ -151,15 +225,17 @@
                         </div>
                     </div>
 
+                    </form>
+
                 </div>
             </div>
         </div>
     </section>
 
-    {{ include('AppBundle:Crud:Modal/create.html.twig') }}
-    {{ include('AppBundle:Crud:Modal/edit.html.twig') }}
-    {{ include('AppBundle:Crud:Modal/delete.html.twig') }}
-    {{ include('AppBundle:Crud:Modal/view.html.twig') }}
-    {{ include('AppBundle:Crud:Modal/info.html.twig') }}
+    {#{{ include('AppBundle:Crud:Modal/create.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/edit.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/delete.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/view.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
 
 {% endblock %}

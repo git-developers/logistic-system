@@ -27,6 +27,7 @@ class QuotationRepository extends EntityRepository
             FROM AppBundle:Quotation a
             WHERE 
             a.estado = :estado
+            ORDER BY a.id DESC
             ";
 
         $query = $em->createQuery($dql);
