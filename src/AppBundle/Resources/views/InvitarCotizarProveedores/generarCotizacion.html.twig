@@ -66,7 +66,7 @@
                 var cantidadPedida = $('#cantidad-pedida-' + id).text().trim();
                 var precioUnitario = $(this).val();
 
-                var monto = parseInt(cantidadPedida) * parseInt(precioUnitario);
+                var monto = ( parseFloat(cantidadPedida) * parseFloat(precioUnitario) ).toFixed(2);
                 $('#monto-' + id).text("S/" + monto);
                 $('#sub-total-monto-' + id).val(monto);
 
@@ -76,11 +76,11 @@
                 $('.sub-total-monto').each(function(){
 
                     if(numberRegex.test($(this).val())) {
-                        subTotalMonto = subTotalMonto + parseInt($(this).val());
+                        subTotalMonto = subTotalMonto + parseFloat($(this).val());
                     }
 
                 });
-                $('#monto_total').val(subTotalMonto);
+                $('#monto_total').val(subTotalMonto.toFixed(2));
 
 
                 // $("input").css("background-color", "pink");

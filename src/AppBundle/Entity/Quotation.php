@@ -102,6 +102,20 @@ class Quotation
      */
     private $estado;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\QuotationMain", mappedBy="quotation")
+     */
+    private $quotationMain;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->quotationMain = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -319,5 +333,39 @@ class Quotation
     public function setEstado($estado)
     {
         $this->estado = $estado;
+    }
+
+    /**
+     * Add quotationMain
+     *
+     * @param \AppBundle\Entity\QuotationMain $quotationMain
+     *
+     * @return Quotation
+     */
+    public function addQuotationMain(\AppBundle\Entity\QuotationMain $quotationMain)
+    {
+        $this->quotationMain[] = $quotationMain;
+
+        return $this;
+    }
+
+    /**
+     * Remove quotationMain
+     *
+     * @param \AppBundle\Entity\QuotationMain $quotationMain
+     */
+    public function removeQuotationMain(\AppBundle\Entity\QuotationMain $quotationMain)
+    {
+        $this->quotationMain->removeElement($quotationMain);
+    }
+
+    /**
+     * Get quotationMain
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuotationMain()
+    {
+        return $this->quotationMain;
     }
 }
