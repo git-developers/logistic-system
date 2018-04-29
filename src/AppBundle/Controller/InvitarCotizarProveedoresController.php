@@ -228,8 +228,8 @@ class InvitarCotizarProveedoresController extends BaseController
                 $this->persist($obj);
             }
 
-//            $url = $this->generateUrl('app_invitar_cotizar_proveedores_generar_cotizacion');
-//            return $this->redirect($url);
+            $url = $this->generateUrl('app_quotation_lista_cotizacion');
+            return $this->redirect($url);
         }
 
         $proveedor = $this->em()->getRepository(Proveedor::class)->findAll();

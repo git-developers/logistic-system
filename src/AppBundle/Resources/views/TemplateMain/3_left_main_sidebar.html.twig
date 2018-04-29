@@ -115,6 +115,8 @@
                 </a>
             </li>
 
+
+            {#
             <li class="treeview
                 {% if app.request.get('_route') matches '(app_recepcion_mercaderia_index)' %}active{% endif %}"
             >
@@ -124,7 +126,6 @@
                 </a>
             </li>
 
-            {#
             <li class="treeview {% if app.request.get('_route') matches '(app_invitar_cotizar_proveedores_index)' %}active{% endif %}">
                 <a href="{{ path('app_invitar_cotizar_proveedores_index') }}">
                     <i class="fa fa-money"></i>
