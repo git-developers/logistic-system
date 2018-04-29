@@ -1,0 +1,246 @@
+{% extends "AppBundle::template.html.twig" %}
+
+{% block bodyclass %}{% spaceless %}
+    {{ crud.body_css }}
+{% endspaceless %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+        filter='cssrewrite'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.css'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/extensions/Editor/css/editor.dataTables.min.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    <style>
+        table#{{ crud.table_name }} tr.{{ crud.table_tr_class }}:hover {
+            background-color: #d2d6de;
+            cursor: pointer;
+        }
+        input[type=checkbox] {
+            height: 20px;
+            width: 20px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/jquery.dataTables.min.js'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.min.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var tableJson = $('#{{ crud.table_name }}').DataTable({
+                "order": [[ 0, "desc" ]],
+                'language': {
+                    'url': '{{ asset('bundles/app/datatables/extensions/language/spanish.json') }}'
+                },
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-fw fa-sticky-note"></i> Lista de Ordenes Compra
+            <small>lista</small>
+        </h1>
+        <ol class="breadcrumb">
+            {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+            {#<li class="active">Dashboard</li>#}
+
+            {#<li>#}
+            {#<a class="btn btn-success btn-xs modal-create"#}
+            {#alt="Crear item"#}
+            {#title="Crear item"#}
+            {#href="{{ path('app_generar_requerimiento_create') }}"#}
+            {#style="margin-right: 5px; color:white">#}
+            {#<i class="fa fa-fw fa-plus"></i> crear requerimiento#}
+            {#</a>#}
+            {#</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+
+                    {#
+                    <div class="box-header">
+                        <h3 class="box-title">Data Table With Full Features</h3>
+                    </div>
+                    #}
+
+                    <form method="post">
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 table-responsive">
+
+
+                                    {#<button type="submit"#}
+                                            {#class="btn bg-purple btn-flat margin">#}
+                                        {#Generar orden de compra#}
+                                    {#</button>#}
+
+                                    <table id="{{ crud.table_name }}"
+                                           class="table table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info">
+                                        <thead>
+                                        <tr>
+                                            {#<th>&nbsp</th>#}
+                                            <th>#</th>
+                                            <th>Requerimiento</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad pedida</th>
+                                            <th>Precio unitario</th>
+                                            <th>Proveedor</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% for obj in entity %}
+
+                                            {#{% set obj = obj|first %}#}
+
+                                            <tr class="tr-table " {# x-hand #}
+                                                    {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                            >
+                                                {#<td>#}
+                                                    {#<input#}
+                                                            {#type="hidden"#}
+                                                            {#name="quotation[requerimiento][]"#}
+                                                            {#value="{{ obj.requerimiento_id }}">#}
+                                                    {#<input#}
+                                                            {#type="hidden"#}
+                                                            {#name="quotation[product][]"#}
+                                                            {#value="{{ obj.product_id }}">#}
+                                                    {#<input#}
+                                                            {#type="checkbox"#}
+                                                            {#name="quotation[id][]"#}
+                                                            {#value="{{ obj.id }}">#}
+                                                {#</td>#}
+                                                <td>
+                                                    {{ obj.id }}
+                                                </td>
+                                                <td>
+                                                    <span data-toggle="tooltip"
+                                                          title=""
+                                                          class="badge bg-yellow"
+                                                          data-original-title="{{ obj.requerimiento_id }}">
+                                                        000{{ obj.requerimiento_id }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {#{{ obj.product_id|e }} -#}
+                                                    <small class="label label-primary">
+                                                        {#{{ obj.product.code|e }}#}
+                                                        {{ obj.product_id|e }}
+                                                    </small>
+                                                    &nbsp;
+                                                    {#{{ obj.product.name|e }}#}
+                                                </td>
+                                                <td id="cantidad-pedida-{{ obj.id }}">
+                                                    <input
+                                                            type="hidden"
+                                                            name="quotation[cantidad_pedida][]"
+                                                            value="{{ obj.cantidad_pedida }}">
+                                                    {{ obj.cantidad_pedida|e }}
+                                                </td>
+                                                <td>
+                                                    S/ {{ obj.precio_unitario }}
+                                                </td>
+                                                <td>
+                                                    <small class="label label-primary">
+                                                        {{ obj.proveedor.id_increment }}
+                                                    </small>
+                                                    &nbsp;
+                                                    {{ obj.proveedor.razon_social }}
+                                                </td>
+                                                <td>
+                                                    {% if obj.estado == "APROBADO" %}
+                                                        <button type="button" class="btn btn-warning btn-xs">
+                                                            {{ obj.estado }}
+                                                        </button>
+                                                    {% elseif obj.estado == "COMPLETADO" %}
+                                                        <button type="button" class="btn btn-success btn-xs">
+                                                            {{ obj.estado }}
+                                                        </button>
+                                                    {% endif %}
+
+                                                    {#<small id="monto-{{ obj.id }}" class="label pull-right bg-blue" style="font-size: 18px">#}
+                                                    {#S/0.00#}
+                                                    {#</small>#}
+                                                    {#<input#}
+                                                    {#id="sub-total-monto-{{ obj.id }}"#}
+                                                    {#type="hidden"#}
+                                                    {#class="sub-total-monto">#}
+                                                </td>
+                                            </tr>
+
+                                        {% else %}
+                                            <tr class="tr-table ">
+                                                <td colspan="8">
+                                                    No hay items.
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            {#<th>&nbsp</th>#}
+                                            <th>#</th>
+                                            <th>Requerimiento</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad pedida</th>
+                                            <th>Precio unitario</th>
+                                            <th>Proveedor</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {#{{ include('AppBundle:Crud:Modal/create.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/edit.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/delete.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/view.html.twig') }}#}
+    {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
+
+{% endblock %}
+
+
+
+
+

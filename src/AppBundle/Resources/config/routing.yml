@@ -66,3 +66,7 @@ app_quotation:
     resource: '@AppBundle/Resources/config/route/quotation.yml'
     prefix: /quotation
 
+app_quotation_main:
+    resource: '@AppBundle/Resources/config/route/quotation-main.yml'
+    prefix: /quotation-main
+

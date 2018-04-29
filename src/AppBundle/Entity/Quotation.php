@@ -24,7 +24,7 @@ class Quotation
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @JMSS\Groups({"quotation"})
+     * @JMSS\Groups({"quotation", "quotation_main", "quotation_detalle"})
      */
     private $id;
 
@@ -32,7 +32,7 @@ class Quotation
      * @var integer
      *
      * @ORM\Column(name="requerimiento_id", type="integer", nullable=false)
-     * @JMSS\Groups({"quotation"})
+     * @JMSS\Groups({"quotation", "quotation_main", "quotation_detalle"})
      */
     private $requerimientoId;
 
@@ -40,7 +40,7 @@ class Quotation
      * @var integer
      *
      * @ORM\Column(name="product_id", type="integer", nullable=false)
-     * @JMSS\Groups({"quotation"})
+     * @JMSS\Groups({"quotation", "quotation_detalle"})
      */
     private $productId;
 
@@ -56,7 +56,7 @@ class Quotation
      * @var string
      *
      * @ORM\Column(name="monto_total", type="string", nullable=true)
-     * @JMSS\Groups({"quotation"})
+     * @JMSS\Groups({"quotation", "quotation_main"})
      */
     private $montoTotal;
 
@@ -90,7 +90,7 @@ class Quotation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id_increment")
      * })
-     * @JMSS\Groups({"quotation"})
+     * @JMSS\Groups({"quotation", "quotation_main", "quotation_detalle"})
      */
     private $proveedor;
 

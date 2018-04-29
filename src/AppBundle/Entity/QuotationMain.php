@@ -3,21 +3,28 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMSS;
 
 /**
  * QuotationMain
  *
  * @ORM\Table(name="quotation_main")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\QuotationMainRepository")
  */
 class QuotationMain
 {
+
+    const ESTADO_APROBADO = 'APROBADO';
+    const ESTADO_NO_APROBADO = 'NO_APROBADO';
+    const ESTADO_COMPLETADO = 'COMPLETADO';
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @JMSS\Groups({"quotation_main", "quotation_detalle"})
      */
     private $id;
 
@@ -32,6 +39,7 @@ class QuotationMain
      * @var integer
      *
      * @ORM\Column(name="requerimiento_id", type="integer", nullable=true)
+     * @JMSS\Groups({"quotation_main", "quotation_detalle"})
      */
     private $requerimientoId;
 
@@ -39,6 +47,7 @@ class QuotationMain
      * @var string
      *
      * @ORM\Column(name="estado", type="string", length=45, nullable=true)
+     * @JMSS\Groups({"quotation_main", "quotation_detalle"})
      */
     private $estado;
 
@@ -54,8 +63,21 @@ class QuotationMain
      *     @ORM\JoinColumn(name="quotation_id", referencedColumnName="id")
      *   }
      * )
+     * @JMSS\Groups({"quotation_main", "quotation_detalle"})
      */
     private $quotation;
+
+    /**
+     * @var \AppBundle\Entity\Proveedor
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proveedor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id_increment")
+     * })
+     * @JMSS\Groups({"quotation_main", "quotation_detalle"})
+     */
+    private $proveedor;
+
 
     /**
      * Constructor
@@ -180,5 +202,30 @@ class QuotationMain
     public function getQuotation()
     {
         return $this->quotation;
+    }
+
+
+    /**
+     * Set proveedor
+     *
+     * @param \AppBundle\Entity\Proveedor $proveedor
+     *
+     * @return Quotation
+     */
+    public function setProveedor(\AppBundle\Entity\Proveedor $proveedor = null)
+    {
+        $this->proveedor = $proveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get proveedor
+     *
+     * @return \AppBundle\Entity\Proveedor
+     */
+    public function getProveedor()
+    {
+        return $this->proveedor;
     }
 }

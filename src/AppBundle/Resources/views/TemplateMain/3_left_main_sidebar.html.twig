@@ -98,25 +98,25 @@
             </li>
 
             <li class="treeview
-                {% if app.request.get('_route') matches '(app_quotation_lista_cotizacion)' %}active{% endif %}"
+                {% if app.request.get('_route') matches '(app_quotation_main_lista_cotizacion)' %}active{% endif %}"
             >
-                <a href="{{ path('app_quotation_lista_cotizacion') }}">
+                <a href="{{ path('app_quotation_main_lista_cotizacion') }}">
                     <i class="fa fa-sticky-note"></i>
                     <span>Lista cotizacion</span>
                 </a>
             </li>
 
             <li class="treeview
-                {% if app.request.get('_route') matches '(app_quotation_lista_ordenes_compra)' %}active{% endif %}"
+                {% if app.request.get('_route') matches '(app_quotation_main_lista_cotizacion)' %}active{% endif %}"
             >
-                <a href="{{ path('app_quotation_lista_ordenes_compra') }}">
+                <a href="{{ path('app_quotation_main_lista_cotizacion') }}">
                     <i class="fa fa-sticky-note"></i>
                     <span>lista ordenes compra</span>
                 </a>
             </li>
 
-
             {#
+
             <li class="treeview
                 {% if app.request.get('_route') matches '(app_recepcion_mercaderia_index)' %}active{% endif %}"
             >

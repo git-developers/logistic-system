@@ -59,7 +59,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-sticky-note"></i> Detalle de cotizacion
+            <i class="fa fa-fw fa-sticky-note"></i> Lista de cotizaciones
             <small>lista</small>
         </h1>
         <ol class="breadcrumb">
@@ -96,10 +96,12 @@
                             <div class="col-sm-12 table-responsive">
 
 
+                                {#
                                 <button type="submit"
                                         class="btn bg-purple btn-flat margin">
                                     Generar orden de compra
                                 </button>
+                                #}
 
                                 <table id="{{ crud.table_name }}"
                                        class="table table-bordered table-striped dataTable"
@@ -107,12 +109,9 @@
                                        aria-describedby="example1_info">
                                     <thead>
                                     <tr>
-                                        <th>&nbsp</th>
+                                        {#<th>&nbsp</th>#}
                                         <th>#</th>
                                         <th>Requerimiento</th>
-                                        <th>Producto</th>
-                                        <th>Cantidad pedida</th>
-                                        <th>Precio unitario</th>
                                         <th>Proveedor</th>
                                         <th>Estado</th>
                                     </tr>
@@ -123,23 +122,22 @@
 
                                         {#{% set obj = obj|first %}#}
 
-                                        <tr class="tr-table " {# x-hand #}
-                                                {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                        <tr class="tr-table x-hand"
+                                                onclick="window.location.href = '{{ path("app_quotation_lista_cotizacion", {id:obj.id}) }}';"
                                         >
+                                            {#
                                             <td>
                                                 <input
                                                     type="hidden"
                                                     name="quotation[requerimiento][]"
                                                     value="{{ obj.requerimiento_id }}">
                                                 <input
-                                                        type="hidden"
-                                                        name="quotation[product][]"
-                                                        value="{{ obj.id ~'#'~ obj.product_id }}">
-                                                <input
-                                                        type="checkbox"
-                                                        name="quotation[id][]"
-                                                        value="{{ obj.id }}">
+                                                    type="checkbox"
+                                                    name="quotation[id][]"
+                                                    value="{{ obj.id }}">
                                             </td>
+                                            #}
+
                                             <td>
                                                 {{ obj.id }}
                                             </td>
@@ -150,25 +148,6 @@
                                                       data-original-title="{{ obj.requerimiento_id }}">
                                                     000{{ obj.requerimiento_id }}
                                                 </span>
-                                            </td>
-                                            <td>
-                                                {#{{ obj.product_id|e }} -#}
-                                                <small class="label label-primary">
-                                                    {#{{ obj.product.code|e }}#}
-                                                    {{ obj.product_id|e }}
-                                                </small>
-                                                &nbsp;
-                                                {#{{ obj.product.name|e }}#}
-                                            </td>
-                                            <td id="cantidad-pedida-{{ obj.id }}">
-                                                <input
-                                                        type="hidden"
-                                                        name="quotation[cantidad_pedida][]"
-                                                        value="{{ obj.cantidad_pedida }}">
-                                                {{ obj.cantidad_pedida|e }}
-                                            </td>
-                                            <td>
-                                                S/ {{ obj.precio_unitario }}
                                             </td>
                                             <td>
                                                 <small class="label label-primary">
@@ -209,12 +188,9 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>&nbsp</th>
+                                        {#<th>&nbsp</th>#}
                                         <th>#</th>
                                         <th>Requerimiento</th>
-                                        <th>Producto</th>
-                                        <th>Cantidad pedida</th>
-                                        <th>Precio unitario</th>
                                         <th>Proveedor</th>
                                         <th>Estado</th>
                                     </tr>

@@ -1,7 +1,7 @@
 app_quotation_lista_cotizacion:
-    path:  /lista-cotizacion
+    path:  /detalle-cotizacion/{id}
     defaults:
-        _controller: AppBundle:Quotation:listaCotizacion
+        _controller: AppBundle:Quotation:detalleCotizacion
     methods: [GET, POST]
 
 app_quotation_lista_ordenes_compra:

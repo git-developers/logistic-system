@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Quotation;
+use AppBundle\Entity\QuotationMain;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\RequerimientoHasProduct;
 use AppBundle\Form\RequerimientoType;
@@ -13,13 +14,21 @@ use AppBundle\Form\RequerimientoType;
 class QuotationController extends BaseController
 {
 
-    public function listaCotizacionAction(Request $request)
+    public function detalleCotizacionAction(Request $request)
     {
         $crud = $this->get('app.service.crud');
         $crudMapper = $crud->getCrudMapper();
 
-        $entity = $this->em()->getRepository(Quotation::class)->findAllByEstado(Quotation::ESTADO_APROBADO);
-        $entity = $this->getSerializeDecode($entity, 'quotation');
+        $id = $request->get('id');
+
+        $quotationMain = $this->em()->getRepository(QuotationMain::class)->findAllHas($id);
+
+        $quotationArray = [];
+        foreach ($quotationMain as $key => $quotation){
+            $entity = $this->em()->getRepository(Quotation::class)->find($id);
+            $quotationArray[] = $this->getSerializeDecode($entity, 'quotation');
+        }
+
 
 //        if(!$entity){
 //            $url = $this->generateUrl('app_generar_requerimiento_create');

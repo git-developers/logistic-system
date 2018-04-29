@@ -9,6 +9,7 @@ use AppBundle\Entity\Requerimiento;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Quote;
 use AppBundle\Entity\Quotation;
+use AppBundle\Entity\QuotationMain;
 use AppBundle\Entity\Proveedor;
 use AppBundle\Entity\RequerimientoHasProduct;
 use AppBundle\Form\RequerimientoType;
@@ -181,16 +182,24 @@ class InvitarCotizarProveedoresController extends BaseController
             $productArray = $quotation['product'];
             $cantidadPedidaArray = $quotation['cantidad_pedida'];
 
+            $quotationMain = new QuotationMain();
+            $quotationMain->setEstado(QuotationMain::ESTADO_APROBADO);
+
+
+            /**
+             * FOREACH
+             */
             foreach ($quotation['id'] as $key => $id){
 
-                $obj = new Quotation();
+                $quotationObj = new Quotation();
+
 
                 $proveedor = $this->em()->getRepository(Proveedor::class)->find($quotation['proveedor']);
-                $obj->setProveedor($proveedor);
-                $obj->setFormaPago($quotation['forma_pago']);
-                $obj->setMontoTotal($quotation['monto_total']);
-                $obj->setPrecioUnitario($precioUnitario[$key]);
-                $obj->setEstado(Quotation::ESTADO_APROBADO);
+                $quotationObj->setProveedor($proveedor);
+                $quotationObj->setFormaPago($quotation['forma_pago']);
+                $quotationObj->setMontoTotal($quotation['monto_total']);
+                $quotationObj->setPrecioUnitario($precioUnitario[$key]);
+                $quotationObj->setEstado(Quotation::ESTADO_APROBADO);
 
                 /**
                  * REQUERIMIENTO
@@ -199,9 +208,10 @@ class InvitarCotizarProveedoresController extends BaseController
                     $cantidadPedida = explode("#", $cantidadPedida);
 
                     if($cantidadPedida[0] == $id){
-                        $obj->setCantidadPedida($cantidadPedida[1]);
+                        $quotationObj->setCantidadPedida($cantidadPedida[1]);
                     }
                 }
+
 
                 /**
                  * REQUERIMIENTO
@@ -210,9 +220,11 @@ class InvitarCotizarProveedoresController extends BaseController
                     $requerimiento = explode("#", $requerimiento);
 
                     if($requerimiento[0] == $id){
-                        $obj->setRequerimientoId($requerimiento[1]);
+                        $quotationObj->setRequerimientoId($requerimiento[1]);
+                        $quotationMain->setRequerimientoId($requerimiento[1]);
                     }
                 }
+
 
                 /**
                  * PRODUCT
@@ -221,14 +233,23 @@ class InvitarCotizarProveedoresController extends BaseController
                     $product = explode("#", $product);
 
                     if($product[0] == $id){
-                        $obj->setProductId($product[1]);
+                        $quotationObj->setProductId($product[1]);
                     }
                 }
 
-                $this->persist($obj);
+                $quotationMain->setProveedor($proveedor);
+                $quotationMain->addQuotation($quotationObj);
+                $this->persist($quotationObj);
             }
+            /**
+             * FOREACH
+             */
 
-            $url = $this->generateUrl('app_quotation_lista_cotizacion');
+
+            $this->persist($quotationMain);
+
+
+            $url = $this->generateUrl('app_quotation_main_lista_cotizacion');
             return $this->redirect($url);
         }
 
