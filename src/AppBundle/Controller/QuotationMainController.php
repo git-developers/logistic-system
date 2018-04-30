@@ -48,4 +48,26 @@ class QuotationMainController extends BaseController
         );
     }
 
+    public function listaOrdenesCompraAction(Request $request)
+    {
+        $crud = $this->get('app.service.crud');
+        $crudMapper = $crud->getCrudMapper();
+
+        $entity = $this->em()->getRepository(QuotationMain::class)->findAllByEstado(QuotationMain::ESTADO_COMPLETADO);
+        $entity = $this->getSerializeDecode($entity, 'quotation_main');
+
+//        if(!$entity){
+//            $url = $this->generateUrl('app_generar_requerimiento_create');
+//            return $this->redirect($url);
+//        }
+
+        return $this->render(
+            'AppBundle:QuotationMain:listaOrdenesCompra.html.twig',
+            [
+                'crud' => $crudMapper->getDefaults(),
+                'entity' => $entity,
+            ]
+        );
+    }
+
 }

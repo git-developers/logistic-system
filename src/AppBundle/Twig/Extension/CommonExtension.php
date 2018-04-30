@@ -36,6 +36,7 @@ class CommonExtension extends \Twig_Extension
             new \Twig_SimpleFunction('randomCarouselColor', [$this, 'randomCarouselColorFunction'] ),
             new \Twig_SimpleFunction('getUser', [$this, 'getUserFunction'] ),
             new \Twig_SimpleFunction('getStock', [$this, 'getStockFunction'] ),
+            new \Twig_SimpleFunction('getProduct', [$this, 'getProductFunction'] ),
         ];
     }
 
@@ -53,6 +54,11 @@ class CommonExtension extends \Twig_Extension
 
         return $product->getStock();
 
+    }
+
+    public function getProductFunction($productId)
+    {
+        return $this->em->getRepository(Product::class)->find($productId);
     }
 
     public function randomBgColorFunction()

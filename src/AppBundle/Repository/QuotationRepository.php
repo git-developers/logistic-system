@@ -19,21 +19,23 @@ class QuotationRepository extends EntityRepository
 //        return $this->findBy(['isActive' => 1], ['id' => 'DESC'], $limit, $offset);
 //    }
 
-    public function findAllByEstado($estado)
+    public function findOneByEstado($id, $estado)
     {
         $em = $this->getEntityManager();
         $dql = "
             SELECT a
             FROM AppBundle:Quotation a
             WHERE 
-            a.estado = :estado
+            a.estado = :estado AND
+            a.id = :id
             ORDER BY a.id DESC
             ";
 
         $query = $em->createQuery($dql);
+        $query->setParameter('id', $id);
         $query->setParameter('estado', $estado);
 
-        return $query->getResult();
+        return $query->getOneOrNullResult();
     }
 
 }

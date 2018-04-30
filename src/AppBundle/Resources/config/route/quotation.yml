@@ -1,12 +1,12 @@
-app_quotation_lista_cotizacion:
+app_quotation_detalle_cotizacion:
     path:  /detalle-cotizacion/{id}
     defaults:
         _controller: AppBundle:Quotation:detalleCotizacion
     methods: [GET, POST]
 
-app_quotation_lista_ordenes_compra:
-    path:  /lista-ordenes-compra
+app_quotation_detalle_ordenes_compra:
+    path:  /detalle-ordenes-compra/{id}
     defaults:
-        _controller: AppBundle:Quotation:listaOrdenesCompra
+        _controller: AppBundle:Quotation:detalleOrdenesCompra
     methods: [GET, POST]
 

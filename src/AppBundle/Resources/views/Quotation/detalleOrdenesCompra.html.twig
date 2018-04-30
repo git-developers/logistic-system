@@ -158,7 +158,7 @@
                                                         {{ obj.product_id|e }}
                                                     </small>
                                                     &nbsp;
-                                                    {#{{ obj.product.name|e }}#}
+                                                    {{ getProduct(obj.product_id).name }}
                                                 </td>
                                                 <td id="cantidad-pedida-{{ obj.id }}">
                                                     <input

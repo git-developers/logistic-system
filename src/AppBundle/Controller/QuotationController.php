@@ -25,7 +25,7 @@ class QuotationController extends BaseController
 
         $quotationArray = [];
         foreach ($quotationMain as $key => $quotation){
-            $entity = $this->em()->getRepository(Quotation::class)->find($id);
+            $entity = $this->em()->getRepository(Quotation::class)->find($quotation['quotation_id']);
             $quotationArray[] = $this->getSerializeDecode($entity, 'quotation');
         }
 
@@ -37,21 +37,65 @@ class QuotationController extends BaseController
 
         if($request->isMethod('POST')) {
 
+
+            /*
+           Array
+            (
+                [requerimiento] => Array
+                    (
+                        [0] => 3
+                        [1] => 3
+                        [2] => 3
+                        [3] => 3
+                        [4] => 2
+                    )
+
+                [product] => Array
+                    (
+                        [0] => 8#8
+                        [1] => 9#7
+                        [2] => 10#6
+                        [3] => 11#5
+                        [4] => 12#9
+                    )
+
+                [id] => Array
+                    (
+                        [0] => 8
+                        [1] => 9
+                        [2] => 10
+                        [3] => 11
+                        [4] => 12
+                    )
+
+                [cantidad_pedida] => Array
+                    (
+                        [0] => 8
+                        [1] => 7
+                        [2] => 6
+                        [3] => 5
+                        [4] => 7
+                    )
+
+            )
+             */
+
             $quotation = $request->get('quotation');
             $ids = $quotation['id'];
             $cantidadPedida = $quotation['cantidad_pedida'];
             $products = $quotation['product'];
+            
+
+            $obj = $this->em()->getRepository(QuotationMain::class)->find($id);
+            $obj->setEstado(QuotationMain::ESTADO_COMPLETADO);
+            $this->persist($obj);
+
 
 
             /**
              * Quotation
              */
             foreach ($ids as $key => $id){
-
-                $obj = $this->em()->getRepository(Quotation::class)->find($id);
-                $obj->setEstado(Quotation::ESTADO_COMPLETADO);
-                $this->persist($obj);
-
 
                 /**
                  * Product
@@ -71,29 +115,35 @@ class QuotationController extends BaseController
             }
 
 
-
-
-            $url = $this->generateUrl('app_quotation_lista_ordenes_compra');
+            $url = $this->generateUrl('app_quotation_main_lista_ordenes_compra');
             return $this->redirect($url);
 
         }
 
         return $this->render(
-            'AppBundle:Quotation:listaCotizacion.html.twig',
+            'AppBundle:Quotation:detalleCotizacion.html.twig',
             [
                 'crud' => $crudMapper->getDefaults(),
-                'entity' => $entity,
+                'entity' => $quotationArray,
             ]
         );
     }
 
-    public function listaOrdenesCompraAction(Request $request)
+    public function detalleOrdenesCompraAction(Request $request)
     {
         $crud = $this->get('app.service.crud');
         $crudMapper = $crud->getCrudMapper();
 
-        $entity = $this->em()->getRepository(Quotation::class)->findAllByEstado(Quotation::ESTADO_COMPLETADO);
-        $entity = $this->getSerializeDecode($entity, 'quotation');
+
+        $id = $request->get('id');
+
+        $quotationMain = $this->em()->getRepository(QuotationMain::class)->findAllHas($id);
+
+        $quotationArray = [];
+        foreach ($quotationMain as $key => $quotation){
+            $entity = $this->em()->getRepository(Quotation::class)->find($quotation['quotation_id']);
+            $quotationArray[] = $this->getSerializeDecode($entity, 'quotation');
+        }
 
 //        if(!$entity){
 //            $url = $this->generateUrl('app_generar_requerimiento_create');
@@ -101,53 +151,10 @@ class QuotationController extends BaseController
 //        }
 
         return $this->render(
-            'AppBundle:Quotation:listaOrdenesCompra.html.twig',
+            'AppBundle:Quotation:detalleOrdenesCompra.html.twig',
             [
                 'crud' => $crudMapper->getDefaults(),
-                'entity' => $entity,
-            ]
-        );
-    }
-
-    public function viewAction(Request $request)
-    {
-
-        $crud = $this->get('app.service.crud');
-        $crudMapper = $crud->getCrudMapper();
-
-        $id = $request->get('id');
-        $entity = $this->em()->getRepository(Requerimiento::class)->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('DESPACHO: Unable to find  entity.');
-        }
-
-
-        $form = $this->createForm(RequerimientoType::class, $entity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->persist($entity);
-
-            $this->flashSuccess("Creado con exito!");
-
-            $url = $this->generateUrl('app_generar_requerimiento_index');
-            return $this->redirect($url);
-
-        }
-
-        $products = $this->em()->getRepository(RequerimientoHasProduct::class)->findAllByRequerimiento($id);
-        $products = $this->getSerializeDecode($products, 'product');
-
-
-        return $this->render(
-            'AppBundle:RecepcionMercaderia:view.html.twig',
-            [
-                'crud' => $crudMapper->getDefaults(),
-                'entity' => $entity,
-                'formEntity' => $form->createView(),
-                'products' => $products,
+                'entity' => $quotationArray,
             ]
         );
     }

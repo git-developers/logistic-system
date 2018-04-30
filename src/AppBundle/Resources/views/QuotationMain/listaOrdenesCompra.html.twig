@@ -96,10 +96,12 @@
                                 <div class="col-sm-12 table-responsive">
 
 
-                                    {#<button type="submit"#}
-                                            {#class="btn bg-purple btn-flat margin">#}
-                                        {#Generar orden de compra#}
-                                    {#</button>#}
+                                    {#
+                                    <button type="submit"
+                                            class="btn bg-purple btn-flat margin">
+                                        Generar orden de compra
+                                    </button>
+                                    #}
 
                                     <table id="{{ crud.table_name }}"
                                            class="table table-bordered table-striped dataTable"
@@ -110,9 +112,6 @@
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
                                             <th>Requerimiento</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad pedida</th>
-                                            <th>Precio unitario</th>
                                             <th>Proveedor</th>
                                             <th>Estado</th>
                                         </tr>
@@ -123,52 +122,32 @@
 
                                             {#{% set obj = obj|first %}#}
 
-                                            <tr class="tr-table " {# x-hand #}
-                                                    {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id}) }}';"#}
+                                            <tr class="tr-table x-hand"
+                                                onclick="window.location.href = '{{ path("app_quotation_detalle_ordenes_compra", {id:obj.id}) }}';"
                                             >
-                                                {#<td>#}
-                                                    {#<input#}
-                                                            {#type="hidden"#}
-                                                            {#name="quotation[requerimiento][]"#}
-                                                            {#value="{{ obj.requerimiento_id }}">#}
-                                                    {#<input#}
-                                                            {#type="hidden"#}
-                                                            {#name="quotation[product][]"#}
-                                                            {#value="{{ obj.product_id }}">#}
-                                                    {#<input#}
-                                                            {#type="checkbox"#}
-                                                            {#name="quotation[id][]"#}
-                                                            {#value="{{ obj.id }}">#}
-                                                {#</td>#}
+                                                {#
+                                                <td>
+                                                    <input
+                                                        type="hidden"
+                                                        name="quotation[requerimiento][]"
+                                                        value="{{ obj.requerimiento_id }}">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="quotation[id][]"
+                                                        value="{{ obj.id }}">
+                                                </td>
+                                                #}
+
                                                 <td>
                                                     {{ obj.id }}
                                                 </td>
                                                 <td>
-                                                    <span data-toggle="tooltip"
-                                                          title=""
-                                                          class="badge bg-yellow"
-                                                          data-original-title="{{ obj.requerimiento_id }}">
-                                                        000{{ obj.requerimiento_id }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    {#{{ obj.product_id|e }} -#}
-                                                    <small class="label label-primary">
-                                                        {#{{ obj.product.code|e }}#}
-                                                        {{ obj.product_id|e }}
-                                                    </small>
-                                                    &nbsp;
-                                                    {#{{ obj.product.name|e }}#}
-                                                </td>
-                                                <td id="cantidad-pedida-{{ obj.id }}">
-                                                    <input
-                                                            type="hidden"
-                                                            name="quotation[cantidad_pedida][]"
-                                                            value="{{ obj.cantidad_pedida }}">
-                                                    {{ obj.cantidad_pedida|e }}
-                                                </td>
-                                                <td>
-                                                    S/ {{ obj.precio_unitario }}
+                                                <span data-toggle="tooltip"
+                                                      title=""
+                                                      class="badge bg-yellow"
+                                                      data-original-title="{{ obj.requerimiento_id }}">
+                                                    000{{ obj.requerimiento_id }}
+                                                </span>
                                                 </td>
                                                 <td>
                                                     <small class="label label-primary">
@@ -200,7 +179,7 @@
 
                                         {% else %}
                                             <tr class="tr-table ">
-                                                <td colspan="8">
+                                                <td colspan="6">
                                                     No hay items.
                                                 </td>
                                             </tr>
@@ -212,9 +191,6 @@
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
                                             <th>Requerimiento</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad pedida</th>
-                                            <th>Precio unitario</th>
                                             <th>Proveedor</th>
                                             <th>Estado</th>
                                         </tr>
@@ -239,8 +215,3 @@
     {#{{ include('AppBundle:Crud:Modal/info.html.twig') }}#}
 
 {% endblock %}
-
-
-
-
-
