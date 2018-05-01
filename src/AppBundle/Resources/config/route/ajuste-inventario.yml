@@ -1,0 +1,11 @@
+app_ajuste_inventario_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:AjusteInventario:index
+    methods: [GET]
+
+app_ajuste_inventario_update:
+    path:  /update
+    defaults:
+        _controller: AppBundle:AjusteInventario:update
+    methods: [GET, POST]

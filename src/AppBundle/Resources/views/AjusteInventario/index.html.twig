@@ -1,0 +1,281 @@
+{% extends "AppBundle::template.html.twig" %}
+
+{% block bodyclass %}{% spaceless %}
+    {{ crud.body_css }}
+{% endspaceless %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+    filter='cssrewrite'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.css'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/extensions/Editor/css/editor.dataTables.min.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    <style>
+        table#{{ crud.table_name }} tr.{{ crud.table_tr_class }}:hover {
+            background-color: #d2d6de;
+            cursor: pointer;
+        }
+        input[type=checkbox] {
+            height: 16px;
+            width: 16px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/jquery.dataTables.min.js'
+        '@AppBundle/Resources/public/main-assets/plugins/datatables/dataTables.bootstrap.min.js'
+        '@AppBundle/Resources/public/crud/js/formCreate.js'
+        '@AppBundle/Resources/public/crud/js/formEdit.js'
+        '@AppBundle/Resources/public/crud/js/formDelete.js'
+        '@AppBundle/Resources/public/crud/js/formView.js'
+        '@AppBundle/Resources/public/crud/js/formInfo.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var tableJson = $('#{{ crud.table_name }}').DataTable({
+                "order": [[ 0, "desc" ]],
+                'language': {
+                    'url': '{{ asset('bundles/app/datatables/extensions/language/spanish.json') }}'
+                },
+            });
+
+
+            $("button#generar-ajuste").click(function(){
+
+                var fields = $("form").serializeArray();
+
+                var isValid = false;
+                $(".product-nuevo-stock").each(function() {
+                    var element = $(this);
+                    if (!element.val() == "") {
+                        isValid = true;
+                    }
+                });
+
+                if(!isValid){
+                    alert("Ingrese valores");
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ path('app_ajuste_inventario_update') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: fields,
+                    cache: true,
+                    beforeSend: function(jqXHR, settings) {
+
+                    },
+                    success: function(data, textStatus, jqXHR) {
+
+                        if(data.status){
+
+                            var productIds = [];
+                            $(".product-id").each(function(key, value) {
+                                var element = $(this);
+                                productIds.push(element.val());
+                            });
+
+                            var productStockActual = [];
+                            $(".product-stock").each(function(key, value) {
+                                var element = $(this);
+                                productStockActual.push(element.val());
+                            });
+
+                            var ID;
+                            var STOCK_ACTUAL;
+                            var STOCK_NUEVO;
+                            $(".product-nuevo-stock").each(function(key, value) {
+                                var element = $(this);
+                                if (!element.val() == "") {
+
+                                    ID = productIds[key];
+                                    STOCK_ACTUAL = parseInt(productStockActual[key]);
+                                    STOCK_NUEVO = parseInt(element.val());
+
+                                    $("#nuevo-stock-" + ID).text(STOCK_ACTUAL - STOCK_NUEVO);
+                                }
+                            });
+
+                            $('#flashbag-success').slideDown();
+
+                            setTimeout( function () {
+                                $('#flashbag-success').slideUp();
+                            }, 2500 );
+                        } else {
+
+                        }
+
+                    },
+                    error: function(jqXHR, exception) {
+
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="flashbag-success" class="flashbag flashbag-success" style="display: none">
+        <a class="pull-right" href="#" rel="tooltip" data-toggle="tooltip" data-placement="left" title="cerrar">×</a>
+        <i class="fa fa-fw fa-check-circle"></i> <span id="msg-warning">Ajuste realizado con exito!</span>
+    </div>
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-fw fa-cube"></i> Ajuste de Inventario
+            <small>lista</small>
+        </h1>
+        <ol class="breadcrumb">
+            {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+            {#<li class="active">Dashboard</li>#}
+
+            {#<li>#}
+                {#<a class="btn btn-success btn-xs modal-create"#}
+                        {#alt="Crear item"#}
+                        {#title="Crear item"#}
+                        {#href="{{ path('app_generar_requerimiento_create') }}"#}
+                        {#style="margin-right: 5px; color:white">#}
+                    {#<i class="fa fa-fw fa-plus"></i> crear requerimiento#}
+                {#</a>#}
+            {#</li>#}
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+
+                    {#
+                    <div class="box-header">
+                        <h3 class="box-title">Data Table With Full Features</h3>
+                    </div>
+                    #}
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+
+                                <button type="button"
+                                    id="generar-ajuste"
+                                    class="btn bg-purple btn-flat margin">
+                                    Generar ajuste
+                                </button>
+
+                                <form>
+
+                                    <table id="{{ crud.table_name }}"
+                                           class="table table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad</th>
+                                                <th>Conteo</th>
+                                                <th>Nuevo stock</th>
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+
+                                            {% for obj in entity %}
+                                                <tr class="tr-table " {# x-hand #}
+                                                    {#onclick="window.location.href = '{{ path("app_despacho_almacen_view", {id:obj.id_increment}) }}';"#}
+
+                                                >
+                                                    <td>
+                                                        <small class="label label-success">
+                                                            {{ obj.id_increment|e }}
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip"
+                                                              title=""
+                                                              class="badge bg-yellow"
+                                                              data-original-title="{{ obj.code|e }}">
+                                                            {{ obj.code|e }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ obj.name|e }}</td>
+                                                    <td>
+                                                        <small class="label label-primary">
+                                                            {{ obj.stock|e }}
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden"
+                                                               name="idx[]"
+                                                               value="{{ obj.id_increment|e }}"
+                                                               class="product-id"
+                                                        >
+                                                        <input type="hidden"
+                                                               name="stock[]"
+                                                               value="{{ obj.stock|e }}"
+                                                               class="product-stock"
+                                                        >
+                                                        <input type="number" name="product[]" class="form-control product-nuevo-stock">
+                                                    </td>
+                                                    <td>
+                                                        <small
+                                                            class="label label-primary"
+                                                            style="font-size: 12px"
+                                                            id="nuevo-stock-{{ obj.id_increment|e }}"
+                                                        ></small>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad</th>
+                                                <th>Conteo</th>
+                                                <th>Nuevo stock</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ include('AppBundle:Crud:Modal/create.html.twig') }}
+    {{ include('AppBundle:Crud:Modal/edit.html.twig') }}
+    {{ include('AppBundle:Crud:Modal/delete.html.twig') }}
+    {{ include('AppBundle:Crud:Modal/view.html.twig') }}
+    {{ include('AppBundle:Crud:Modal/info.html.twig') }}
+
+{% endblock %}

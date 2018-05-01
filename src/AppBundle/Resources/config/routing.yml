@@ -70,3 +70,7 @@ app_quotation_main:
     resource: '@AppBundle/Resources/config/route/quotation-main.yml'
     prefix: /quotation-main
 
+app_ajuste_inventario:
+    resource: '@AppBundle/Resources/config/route/ajuste-inventario.yml'
+    prefix: /ajuste-inventario
+

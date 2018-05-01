@@ -111,7 +111,16 @@
             >
                 <a href="{{ path('app_quotation_main_lista_ordenes_compra') }}">
                     <i class="fa fa-sticky-note"></i>
-                    <span>lista ordenes compra</span>
+                    <span>Lista de ordenes compra</span>
+                </a>
+            </li>
+
+            <li class="treeview
+                {% if app.request.get('_route') matches '(app_ajuste_inventario_index)' %}active{% endif %}"
+            >
+                <a href="{{ path('app_ajuste_inventario_index') }}">
+                    <i class="fa fa-cube"></i>
+                    <span>Ajuste de Inventario</span>
                 </a>
             </li>
 
