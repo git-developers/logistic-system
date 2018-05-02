@@ -1,0 +1,11 @@
+app_reporte_index:
+    path:  /
+    defaults:
+        _controller: AppBundle:Reporte:index
+    methods: [GET]
+
+#app_reporte_update:
+#    path:  /update
+#    defaults:
+#        _controller: AppBundle:AjusteInventario:update
+#    methods: [GET, POST]

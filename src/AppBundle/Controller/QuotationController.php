@@ -125,6 +125,7 @@ class QuotationController extends BaseController
             [
                 'crud' => $crudMapper->getDefaults(),
                 'entity' => $quotationArray,
+                'id' => $id,
             ]
         );
     }
@@ -155,6 +156,7 @@ class QuotationController extends BaseController
             [
                 'crud' => $crudMapper->getDefaults(),
                 'entity' => $quotationArray,
+                'id' => $id,
             ]
         );
     }
