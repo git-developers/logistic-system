@@ -111,7 +111,7 @@
                                         <tr>
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
-                                            <th>Requerimiento</th>
+                                            {#<th>Requerimiento</th>#}
                                             <th>Proveedor</th>
                                             <th>Estado</th>
                                         </tr>
@@ -141,14 +141,14 @@
                                                 <td>
                                                     {{ obj.id }}-B
                                                 </td>
-                                                <td>
-                                                <span data-toggle="tooltip"
-                                                      title=""
-                                                      class="badge bg-yellow"
-                                                      data-original-title="{{ obj.requerimiento_id }}">
-                                                    000{{ obj.requerimiento_id }}
-                                                </span>
-                                                </td>
+{#                                                <td>
+                                                    <span data-toggle="tooltip"
+                                                          title=""
+                                                          class="badge bg-yellow"
+                                                          data-original-title="{{ obj.requerimiento_id }}">
+                                                        000{{ obj.requerimiento_id }}
+                                                    </span>
+                                                </td>#}
                                                 <td>
                                                     <small class="label label-primary">
                                                         {{ obj.proveedor.id_increment }}
@@ -190,7 +190,7 @@
                                         <tr>
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
-                                            <th>Requerimiento</th>
+                                            {#<th>Requerimiento</th>#}
                                             <th>Proveedor</th>
                                             <th>Estado</th>
                                         </tr>

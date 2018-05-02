@@ -29,7 +29,6 @@ class QuotationController extends BaseController
             $quotationArray[] = $this->getSerializeDecode($entity, 'quotation');
         }
 
-
 //        if(!$entity){
 //            $url = $this->generateUrl('app_generar_requerimiento_create');
 //            return $this->redirect($url);
@@ -105,26 +104,31 @@ class QuotationController extends BaseController
                     $idX = $productArray[0];
                     $productId = $productArray[1];
 
-                    if($idX = $id){
+                    if($idX == $id){
                         $product = $this->em()->getRepository(Product::class)->find($productId);
-                        $stock = $product->getStock() + $cantidadPedida[$key];
+
+                        $stockActual = !empty($product->getStock()) ? $product->getStock() : 0;
+
+                        $stock = $stockActual + $cantidadPedida[$key];
                         $product->setStock($stock);
                         $this->persist($product);
                     }
                 }
             }
 
-
             $url = $this->generateUrl('app_quotation_main_lista_ordenes_compra');
             return $this->redirect($url);
 
         }
+
+        $firstArray = isset($quotationArray[0]) ? $quotationArray[0] : null;
 
         return $this->render(
             'AppBundle:Quotation:detalleCotizacion.html.twig',
             [
                 'crud' => $crudMapper->getDefaults(),
                 'entity' => $quotationArray,
+                'firstArray' => $firstArray,
                 'id' => $id,
             ]
         );
@@ -151,12 +155,15 @@ class QuotationController extends BaseController
 //            return $this->redirect($url);
 //        }
 
+        $firstArray = isset($quotationArray[0]) ? $quotationArray[0] : null;
+
         return $this->render(
             'AppBundle:Quotation:detalleOrdenesCompra.html.twig',
             [
                 'crud' => $crudMapper->getDefaults(),
                 'entity' => $quotationArray,
                 'id' => $id,
+                'firstArray' => $firstArray,
             ]
         );
     }

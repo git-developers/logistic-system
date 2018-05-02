@@ -59,7 +59,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-fw fa-sticky-note"></i> Lista de Ordenes Compra
+            <i class="fa fa-fw fa-sticky-note"></i> Detalle Orden de Compra
             <small>lista</small>
         </h1>
         <ol class="breadcrumb">
@@ -96,27 +96,33 @@
                                 <div class="col-sm-12 table-responsive">
 
 
-                                    {#<button type="submit"#}
-                                            {#class="btn bg-purple btn-flat margin">#}
-                                        {#Generar orden de compra#}
-                                    {#</button>#}
-
                                     <div class="row">
-                                        {#<div class="col-md-2">#}
-                                            {#<button type="submit"#}
-                                                    {#class="btn bg-purple btn-flat margin">#}
-                                                {#Generar orden de compra#}
-                                            {#</button>#}
-                                        {#</div>#}
                                         <div class="col-md-2">
-                                            <span class="pull-right badge bg-blue">
+                                            <a class="btn btn-app">
+                                                <i class="fa fa-info-circle"></i>
                                                 Cotizacion código {{ id }}-B
-                                            </span>
-
-                                            <br>
-                                            <br>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-app">
+                                                <i class="fa fa-info-circle"></i>
+                                                Forma de pago: {{ firstArray.forma_pago }}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-app">
+                                                <i class="fa fa-info-circle"></i>
+                                                Proveedor: {{ firstArray.proveedor.id_increment ~'-'~ firstArray.proveedor.razon_social }}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-app">
+                                                <i class="fa fa-money"></i>
+                                                Monto total: {{ firstArray.monto_total }}
+                                            </a>
                                         </div>
                                     </div>
+
 
                                     <table id="{{ crud.table_name }}"
                                            class="table table-bordered table-striped dataTable"
@@ -126,7 +132,7 @@
                                         <tr>
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
-                                            <th>Requerimiento</th>
+                                            {#<th>Requerimiento</th>#}
                                             <th>Producto</th>
                                             <th>Cantidad pedida</th>
                                             <th>Precio unitario</th>
@@ -160,14 +166,14 @@
                                                 <td>
                                                     {{ obj.id }}
                                                 </td>
-                                                <td>
-                                                    <span data-toggle="tooltip"
-                                                          title=""
-                                                          class="badge bg-yellow"
-                                                          data-original-title="{{ obj.requerimiento_id }}">
-                                                        000{{ obj.requerimiento_id }}
-                                                    </span>
-                                                </td>
+                                                {#<td>#}
+                                                    {#<span data-toggle="tooltip"#}
+                                                          {#title=""#}
+                                                          {#class="badge bg-yellow"#}
+                                                          {#data-original-title="{{ obj.requerimiento_id }}">#}
+                                                        {#000{{ obj.requerimiento_id }}#}
+                                                    {#</span>#}
+                                                {#</td>#}
                                                 <td>
                                                     {#{{ obj.product_id|e }} -#}
                                                     <small class="label label-primary">
@@ -228,7 +234,7 @@
                                         <tr>
                                             {#<th>&nbsp</th>#}
                                             <th>#</th>
-                                            <th>Requerimiento</th>
+                                            {#<th>Requerimiento</th>#}
                                             <th>Producto</th>
                                             <th>Cantidad pedida</th>
                                             <th>Precio unitario</th>

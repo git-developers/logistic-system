@@ -104,10 +104,28 @@
                                         </button>
                                     </div>
                                     <div class="col-md-2">
-                                        <br>
-                                        <span class="pull-right badge bg-blue">
+                                        <a class="btn btn-app">
+                                            <i class="fa fa-info-circle"></i>
                                             Cotizacion código {{ id }}-A
-                                        </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="btn btn-app">
+                                            <i class="fa fa-info-circle"></i>
+                                            Forma de pago: {{ firstArray.forma_pago }}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="btn btn-app">
+                                            <i class="fa fa-info-circle"></i>
+                                            Proveedor: {{ firstArray.proveedor.id_increment ~'-'~ firstArray.proveedor.razon_social }}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="btn btn-app">
+                                            <i class="fa fa-money"></i>
+                                            Monto total: {{ firstArray.monto_total }}
+                                        </a>
                                     </div>
                                 </div>
 
@@ -124,7 +142,7 @@
                                         <th>Producto</th>
                                         <th>Cantidad pedida</th>
                                         <th>Precio unitario</th>
-                                        <th>Proveedor</th>
+                                        {#<th>Proveedor</th>#}
                                         {#<th>Estado</th>#}
                                     </tr>
                                     </thead>
@@ -181,13 +199,13 @@
                                             <td>
                                                 S/ {{ obj.precio_unitario }}
                                             </td>
-                                            <td>
-                                                <small class="label label-primary">
-                                                    {{ obj.proveedor.id_increment }}
-                                                </small>
-                                                &nbsp;
-                                                {{ obj.proveedor.razon_social }}
-                                            </td>
+                                            {#<td>#}
+                                                {#<small class="label label-primary">#}
+                                                    {#{{ obj.proveedor.id_increment }}#}
+                                                {#</small>#}
+                                                {#&nbsp;#}
+                                                {#{{ obj.proveedor.razon_social }}#}
+                                            {#</td>#}
 
                                             {#
                                             <td>
@@ -221,7 +239,7 @@
                                         <th>Producto</th>
                                         <th>Cantidad pedida</th>
                                         <th>Precio unitario</th>
-                                        <th>Proveedor</th>
+                                        {#<th>Proveedor</th>#}
                                         {#<th>Estado</th>#}
                                     </tr>
                                     </tfoot>
