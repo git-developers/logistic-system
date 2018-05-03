@@ -58,7 +58,7 @@ class DespachoAlmacenController extends BaseController
 
             $this->flashSuccess("Creado con exito!");
 
-            $url = $this->generateUrl('app_generar_requerimiento_index');
+            $url = $this->generateUrl('app_generar_requerimiento_create');
             return $this->redirect($url);
 
         }
