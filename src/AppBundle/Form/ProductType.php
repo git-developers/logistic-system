@@ -43,7 +43,15 @@ class ProductType extends AbstractType
                 'label_attr' => ['class' => ''],
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'e.g. admin, editor, runner',
+                    'placeholder' => 'e.g. producto 1',
+                ],
+            ])
+            ->add('code', TextType::class, [
+                'label' => 'Código',
+                'label_attr' => ['class' => ''],
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '0000999',
                 ],
             ])
             ->add('stock', IntegerType::class, [
